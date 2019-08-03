@@ -17,6 +17,10 @@ pip install -r requirements.txt
 ```
 git clone git@bitbucket.org:shagalalab/blogger-web.git
 ```
+### Migrate DB
+```
+./manage.py migrate
+```
 ### Run the app
 ```
 ./manage.py runserver
