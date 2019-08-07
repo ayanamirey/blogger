@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from core.models import TimestampedModel
 
-class Article(models.Model):
+
+class Article(TimestampedModel):
     title = models.CharField(max_length=100)
     slug = models.SlugField()
     body = models.TextField()
