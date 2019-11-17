@@ -1,0 +1,26 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+
+    <h1>User</h1>
+    {% if username %}
+        <p>Name is: {{ username.first_name }} {{ username.last_name }}</p>
+        <p>Username: {{ username.username }} </p>
+        <p>Email: {{ username.email }}</p>
+        <p>Date joined: {{ username.date_joined }} </p>
+
+        <br>
+     <h2>Articles</h2>
+            {% if articles %}
+                {% for article in articles%}
+                    <p><a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}</p>
+                    <br>
+                {% endfor %}
+            {% else %}
+                <b>No articles yet!</b>
+            {% endif %}
+    {% else %}
+        <p>No user with given username!</p>
+    {% endif %}
+
+{% endblock %}
