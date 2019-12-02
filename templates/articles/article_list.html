@@ -1,0 +1,11 @@
+{% extends 'base_sidebar.html' %}
+
+{% block header %}Bas bet{% endblock %}
+
+{% block content %}
+  <div class="articles">
+    {% for article in articles %}
+      {% include '_partials/_article_item.html' %}
+    {% endfor %}
+  </div>
+{% endblock %}

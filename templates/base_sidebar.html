@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block root_content %}
+<div class="content-widget">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h4 class="spanborder">
+                    <span>{% block header %} {% endblock %}</span>
+                </h4>
+
+                {% block content %}
+                {% endblock %}
+
+<!--                    {% include '_partials/sample_articles.html' %}-->
+
+<!--                    {% include '_partials/pagination.html' %}-->
+
+            </div> <!--col-md-8-->
+
+            {% include '_partials/sidebar.html' %}
+
+        </div>
+    </div> <!--content-widget-->
+</div>
+{% endblock %}
