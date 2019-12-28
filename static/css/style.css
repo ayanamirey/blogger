@@ -1007,9 +1007,9 @@ header {
   line-height: 1;
 }
 
-.mobi-menu__logo img {
-  display:
-}
+/*.mobi-menu__logo img {*/
+/*  display:*/
+/*}*/
 
 .mobi-menu .mobi-menu__socials {
   position: absolute;
@@ -1368,9 +1368,9 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
   width: unset;
 }
 
-button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover {
-  border: none;
-}
+/*button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover {*/
+/*  border: none;*/
+/*}*/
 
 /*404*/
 .page-404 .entry-wraper {

@@ -9,8 +9,8 @@
             </h1>
             <div class="entry-meta align-items-center">
                 <a class="author-avatar" href="#"><img src="/static/images/author-avata-2.jpg" alt=""></a>
-                <a href="author.html">Darcy Reeder</a> in <a href="archive.html">OneZero</a><br>
-                <span>Jun 17</span>
+                <a href="{% url 'profiles:profile-details'%} }}">{{ article.author }}</a> in <a href="archive.html">OneZero</a><br>
+                <span>{{ article.date }}</span>
                 <span class="middotDivider"></span>
                 <span class="readingTime" title="3 min read">3 min read</span>
                 <span class="svgIcon svgIcon--star">

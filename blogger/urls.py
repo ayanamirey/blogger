@@ -10,5 +10,6 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('articles/', include('articles.urls')),
     path('', article_views.article_list, name="home"),
-    re_path(r'^@(?P<username>.+)$', views.username_detail)
+    re_path(r'^@(?P<username>.+)$', views.username_detail),
+    path('profile/', include('profiles.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -9,7 +9,7 @@
                 </p>
             </div>
             <div class="entry-meta align-items-center">
-                <a href="author.html">Dave Gershgorn</a> in <a href="archive.html">OneZero</a><br>
+                <a href="{% url 'profiles:profile-details' %}">{{ article.author }}</a> in <a href="archive.html">OneZero</a><br>
                 <span>{{ article.date }}</span>
                 <span class="middotDivider"></span>
                 <span class="readingTime" title="3 min read">5 min read</span>

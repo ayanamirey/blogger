@@ -1,0 +1,48 @@
+{% extends 'base_sidebar.html' %}
+
+{% block header %}Profile{% endblock %}
+{% block content %}
+    {% if profile.user %}
+        {% if profile.user.first_name %}
+            <p>Name: {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+        {% endif %}
+        {% if profile.user.username %}
+            <p>Username: {{ profile.user.username }} </p>
+        {% endif %}
+        {% if profile.user.email %}
+            <p>Email: {{ profile.user.email }}</p>
+        {% endif %}
+        {% if profile.user.date_joined %}
+            <p>Date joined: {{ profile.user.date_joined }} </p>
+        {% endif %}
+        {% if profile.bio %}
+            <p>Bio: {{ profile.bio }}</p>
+        {% endif %}
+        {% if profile.location %}
+            <p>Location: {{ profile.location }}</p>
+        {% endif %}
+        {% if profile.birth_date %}
+            <p>Birth date: {{ profile.birth_date }}</p>
+        {% endif %}
+        {% if user.username|lower == profile.user.username|lower %}
+            <form  action="{% url 'profiles:profile-update' %}">
+                <button class="btn btn-outline-success btn-default" type="submit">Edit profile</button>
+            </form>
+        {% endif %}
+        <hr>
+        <h2>Articles</h2>
+        {% if articles %}
+            {% for article in articles%}
+                <p><a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}</p>
+                <br>
+            {% endfor %}
+        {% else %}
+            <b>No articles yet!</b>
+        {% endif %}
+    {% else %}
+        <p>No user with given username!</p>
+    {% endif %}
+    <br>
+
+
+{% endblock %}
