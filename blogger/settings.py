@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'profiles',
     'markdownx',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -52,7 +53,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
+
+# specifying correct backends
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 ROOT_URLCONF = 'blogger.urls'
 
@@ -69,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect'
             ],
         },
     },
@@ -139,3 +152,15 @@ MARKDOWNX_IMAGE_MAX_SIZE = {
     'size': (800, 800),
     'quality': 90
 }
+
+# Social Auth
+
+SOCIAL_AUTH_TWITTER_KEY = 'NOP4IWFmElCWSX3jBbOKvx7uL'
+SOCIAL_AUTH_TWITTER_SECRET = 'T462JXhyGGGM2u2yo4N63pCDNJOxQ5t75klgL0QufRy4T4L4wx'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '578572609596071'
+SOCIAL_AUTH_FACEBOOK_SECRET = '7700454041058a44c3c7efb3e4ac1fd5'
+
+# SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'articles:list'
+# SOCIAL_AUTH_RAISE_EXCEPTIONS = False

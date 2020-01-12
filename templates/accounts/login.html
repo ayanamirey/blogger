@@ -10,4 +10,8 @@
     {% endif %}
     <input type="submit" name="" value="Login">
   </form>
+  <br>
+  <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a>
+  <br>
+  <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a>
 {% endblock %}
