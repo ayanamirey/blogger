@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from . import forms
+from .forms import EditArticle
 from .models import Article
 
 
@@ -13,6 +14,32 @@ def article_list(request):
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
     return render(request, 'articles/article_detail.html', {'article': article})
+
+
+def article_delete(request, slug):
+    try:
+        article = Article.objects.get(slug=slug)
+        if request.user.username == article.author.username:
+            Article.objects.filter(slug=slug).delete()
+    except Article.DoesNotExist:
+        pass
+    return redirect('/')
+
+
+@login_required(login_url="/accounts/login/")
+def article_edit(request, slug):
+    try:
+        article = Article.objects.get(slug=slug)
+        if request.user.username == article.author.username:
+            form = EditArticle(request.POST or None, instance=article)
+            if form.is_valid():
+                form.save()
+                return redirect('articles:list')
+        else:
+            return redirect('/')
+    except Article.DoesNotExist:
+        return redirect('/')
+    return render(request, 'articles/article_edit.html', {'form': form, 'article': article})
 
 
 @login_required(login_url="/accounts/login/")

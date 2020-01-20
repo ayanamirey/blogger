@@ -6,3 +6,9 @@ class CreateArticle(forms.ModelForm):
     class Meta:
         model = models.Article
         fields = ['title', 'body', 'slug']
+
+
+class EditArticle(forms.ModelForm):
+    class Meta:
+        model = models.Article
+        fields = ['title', 'body', 'slug']
