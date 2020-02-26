@@ -6,3 +6,16 @@
   <p>{{ article.body }}</p>
   <p>{{ article.date }}</p>
 {% endblock %}
+{% block bottom %}
+     {% if article.tag %}
+        <div class="entry-bottom">
+            <div class="tags-wrap heading">
+                <span class="tags">
+                    {% for tags in article.tag.all|dictsort:"title"%}
+                        <a href="#" rel="tag">{{ tags }}</a>
+                    {% endfor %}
+                </span>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

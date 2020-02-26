@@ -615,7 +615,7 @@ header .logo-wrapper {
   padding: 0;
 }
 .author-avatar {
-  
+
   margin-left: 1rem;
 }
 .author-avatar img {
@@ -625,6 +625,7 @@ header .logo-wrapper {
   width: 32px;
   max-width: unset;
 }
+
 header {
 	position: relative;
   	padding: 1rem 0 0 0;
@@ -1061,6 +1062,12 @@ ul.page-numbers li span.current {
 
 /*Form*/
 
+span.helptext {
+  color: rgba(0,0,0,.84) !important;
+  display: block;
+  margin: 8px 0;
+  font-size: small;
+}
 .form-control {
   height: 50px;
   line-height: 50px;

@@ -3,9 +3,16 @@
 {% block content %}
   <div class="create-article">
     <h2>Edit article</h2>
-      <form class="site-form" action="{% url 'articles:article-edit' article.slug %}" method="post" enctype="multipart/form-data">
+      <form class="site-form" action="{% url 'articles:edit' article.slug %}" method="post" enctype="multipart/form-data">
           {% csrf_token %}
-          {{ form }}
+          Title:
+          {{ form.title }}
+          Body:
+          {{ form.body }}
+          Slug:
+          {{ form.slug }}
+          Tags:
+          <input type="text" name="tag" value="{{ tags }}" maxlength="100" required="" id="id_tag">
           <input type="submit" name="" value="Save">
       </form>
   </div>

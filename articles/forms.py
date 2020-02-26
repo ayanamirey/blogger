@@ -1,14 +1,22 @@
 from django import forms
 from . import models
+from django.core.validators import RegexValidator
+
+alphanumeric = RegexValidator(r'^([0-9a-zA-Z\-\s]*[,]){,4}[0-9a-zA-Z\-\s]*$',
+                              'Only alphanumeric characters, hyphen are allowed. Maximum 5 tags can be used')
 
 
 class CreateArticle(forms.ModelForm):
+    tag = forms.CharField(max_length=100, validators=[alphanumeric], help_text='(Separate tags with comma)')
+
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'tag', 'slug']
+        fields = ['title', 'body', 'slug', 'tag']
 
 
 class EditArticle(forms.ModelForm):
+    tag = forms.CharField(max_length=100, validators=[alphanumeric], help_text='(Separate tags with comma)')
+
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'tag', 'slug']
+        fields = ['title', 'body', 'slug', 'tag']

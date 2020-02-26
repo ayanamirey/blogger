@@ -21,9 +21,9 @@
             </div>
         </div>
     </div> <!--end single header-->
-    <figure class="image zoom mb-5">
-        <img src="http://via.placeholder.com/1240x700" alt="post-title" />
-    </figure>  <!--figure-->
+<!--    <figure class="image zoom mb-5">-->
+<!--        <img src="http://via.placeholder.com/1240x700" alt="post-title" />-->
+<!--    </figure>-->
 
     <article class="entry-wraper mb-5">
         <div class="entry-left-col">
@@ -38,15 +38,9 @@
             {% block content %}
             {% endblock %}
         </div>
-        <div class="entry-bottom">
-            <div class="tags-wrap heading">
-                <span class="tags">
-                    <a href="#" rel="tag">fashion</a>
-                    <a href="#" rel="tag">lifestyle</a>
-                    <a href="#" rel="tag">news</a>
-                    <a href="#" rel="tag">style</a>
-                </span>
-            </div>
+        <div>
+            {% block bottom %}
+            {% endblock %}
         </div>
 
         {% include '_partials/article_author.html' %}
