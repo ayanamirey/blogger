@@ -12,7 +12,7 @@
             <div class="tags-wrap heading">
                 <span class="tags">
                     {% for tags in article.tag.all|dictsort:"title"%}
-                        <a href="#" rel="tag">{{ tags }}</a>
+                        <a href="{% url 'articles-by-tag' tags %}" rel="tag">{{ tags }}</a>
                     {% endfor %}
                 </span>
             </div>

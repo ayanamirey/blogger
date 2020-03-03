@@ -6,6 +6,11 @@ from .forms import EditArticle
 from .models import Article, Tag
 
 
+def articles_by_tag(request, tag):
+    articles = Article.objects.filter(tag__title=tag)
+    return render(request, 'articles/articles_by_tag.html', {'articles': articles, 'tag': tag})
+
+
 def article_list(request):
     articles = Article.objects.all().order_by('date')
     return render(request, 'articles/article_list.html', {'articles': articles})
@@ -38,7 +43,7 @@ def article_edit(request, slug):
                 if form.data['tag']:
                     new_tags = form.data['tag'].split(',')
                     for i, j in enumerate(new_tags):
-                        tag, created = Tag.objects.get_or_create(title=j.strip())
+                        tag, created = Tag.objects.get_or_create(title=j.strip().lower())
                         new_tags[i] = tag
                     instance.tag.clear()
                     instance.tag.add(*new_tags)
@@ -63,7 +68,7 @@ def article_create(request):
             if form.data['tag']:
                 tags = form.data['tag'].split(',')
                 for i, j in enumerate(tags):
-                    tag, created = Tag.objects.get_or_create(title=j.strip())
+                    tag, created = Tag.objects.get_or_create(title=j.strip().lower())
                     tags[i] = tag
                 instance.tag.add(*tags)
                 instance.save()

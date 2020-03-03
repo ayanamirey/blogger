@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('articles/', include('articles.urls')),
+    re_path('tags/(?P<tag>[\\w-]+)', article_views.articles_by_tag, name='articles-by-tag'),
     path('', article_views.article_list, name="home"),
     re_path(r'^@(?P<username>.+)$', views.username_detail),
     path('profile/', include('profiles.urls')),
