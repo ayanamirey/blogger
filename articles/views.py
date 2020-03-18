@@ -1,9 +1,12 @@
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 
 from . import forms
 from .forms import EditArticle
 from .models import Article, Tag
+
+NUMBER_OF_ARTICLES_PER_PAGE = 10
 
 
 def articles_by_tag(request, tag):
@@ -12,7 +15,10 @@ def articles_by_tag(request, tag):
 
 
 def article_list(request):
-    articles = Article.objects.all().order_by('date')
+    all_articles = Article.objects.all().order_by('date')
+    paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
     return render(request, 'articles/article_list.html', {'articles': articles})
 
 

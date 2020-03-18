@@ -1,10 +1,24 @@
-<ul class="page-numbers heading">
-    <li><span aria-current="page" class="page-numbers current">1</span></li>
-    <li><a class="page-numbers" href="#">2</a></li>
-    <li><a class="page-numbers" href="#">3</a></li>
-    <li><a class="page-numbers" href="#">4</a></li>
-    <li><a class="page-numbers" href="#">5</a></li>
-    <li><a class="page-numbers" href="#">...</a></li>
-    <li><a class="page-numbers" href="#">98</a></li>
-    <li><a class="next page-numbers" href="#"><i class="icon-right-open-big"></i></a></li>
-</ul>
+<div>
+    <ul class="page-numbers heading">
+        {% if articles.has_previous %}
+            <li><a href="?page={{ articles.previous_page_number }}" class="active icon-left-open-big"></a></li>
+        {% endif %}
+        {% if articles.number > 6 %}
+            <li><a href="?page={{ articles.number|add:-6 }}" class="page-numbers">...</a></li>
+        {% endif %}
+        {% for i in articles.paginator.page_range %}
+            {% if articles.number == i %}
+                <li class="active page-numbers current" aria-current="page"><span>{{ i }}</span></li>
+            {% endif %}
+            {% if i <= articles.number|add:5 and i >= articles.number|add:-5 and i != articles.number %}
+                <li><a class="page-numbers" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if articles.paginator.num_pages > articles.number|add:5 %}
+            <li><a href="?page={{ articles.number|add:6 }}" class="page-numbers">...</a></li>
+        {% endif %}
+        {% if articles.has_next %}
+            <li><a href="?page={{ articles.next_page_number }}" class="active icon-right-open-big"></a></li>
+        {% endif %}
+    </ul>
+</div>

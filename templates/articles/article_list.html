@@ -3,9 +3,12 @@
 {% block header %}Bas bet{% endblock %}
 
 {% block content %}
-  <div class="articles">
-    {% for article in articles %}
-      {% include '_partials/_article_item.html' %}
-    {% endfor %}
-  </div>
+    <div class="articles">
+        {% for article in articles %}
+            {% include '_partials/_article_item.html' %}
+        {% endfor %}
+    </div>
+    {% if articles.has_other_pages %}
+        {% include '_partials/pagination.html' %}
+    {% endif %}
 {% endblock %}
