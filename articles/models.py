@@ -1,6 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
+from markdownx.models import MarkdownxField
 
 from core.models import TimestampedModel
 
@@ -17,7 +18,7 @@ class Tag(TimestampedModel):
 class Article(TimestampedModel):
     title = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
-    body = models.TextField()
+    body = MarkdownxField()
     tag = models.ManyToManyField(Tag, related_name="articles")
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)

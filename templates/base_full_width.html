@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block root_content %}
+<div class="container">
+    <article class="entry-wraper full-width mb-5">
+        <div class="entry-main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </article> <!--entry-content-->
+
+</div> <!--container-->
+{% endblock %}
+
+{% block jslibs %}
+<script>
+    $('textarea#id_body').each(function () {
+      this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function () {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+</script>
+{% endblock %}

@@ -3,8 +3,7 @@
 {% block header%}{{ article.title }}{% endblock %}
 
 {% block content %}
-  <p>{{ article.body }}</p>
-  <p>{{ article.date }}</p>
+  <p>{{ body|safe }}</p>
 {% endblock %}
 {% block bottom %}
      {% if article.tag %}

@@ -44,8 +44,8 @@ a:focus,
 button.owl-prev:hover i,
 button.owl-next:hover i,
 .link-green, .btn-green,
-.copyright a
-/*.entry-main-content a*/
+.copyright a,
+.entry-main-content a
  {
   color: #03a87c !important;
   fill: #03a87c !important;

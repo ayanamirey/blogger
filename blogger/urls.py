@@ -13,4 +13,5 @@ urlpatterns = [
     path('', article_views.article_list, name="home"),
     re_path(r'^@(?P<username>.+)$', views.username_detail),
     path('profile/', include('profiles.urls')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    re_path(r'^markdownx/', include('markdownx.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,4 +1,4 @@
-{% extends 'base_single.html' %}
+{% extends 'base_full_width.html' %}
 
 {% block content %}
   <div class="create-article">
@@ -15,5 +15,6 @@
           <input type="text" name="tag" value="{{ tags }}" maxlength="100" required="" id="id_tag">
           <input type="submit" name="" value="Save">
       </form>
+      {{ form.media }}
   </div>
 {% endblock %}

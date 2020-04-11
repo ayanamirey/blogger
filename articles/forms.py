@@ -1,4 +1,6 @@
 from django import forms
+from markdownx.fields import MarkdownxFormField
+
 from . import models
 from django.core.validators import RegexValidator
 
@@ -16,6 +18,7 @@ class CreateArticle(forms.ModelForm):
 
 class EditArticle(forms.ModelForm):
     tag = forms.CharField(max_length=100, validators=[alphanumeric], help_text='(Separate tags with comma)')
+    body = MarkdownxFormField()
 
     class Meta:
         model = models.Article

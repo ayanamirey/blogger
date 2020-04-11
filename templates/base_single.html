@@ -34,7 +34,7 @@
                 <a href="#"><i class="icon-paper-plane"></i></a>
             </div>
         </div>
-        <div class="entry-main-content dropcap">
+        <div class="entry-main-content">
             {% block content %}
             {% endblock %}
         </div>
@@ -47,11 +47,11 @@
     </article> <!--entry-content-->
 
     <!--Begin post related-->
-    {% include '_partials/related.html' %}
+    {# include '_partials/related.html' #}
     <!--End post related-->
 
     <!--Begin Comment-->
-    {% include '_partials/comment.html' %}
+    {# include '_partials/comment.html' #}
     <!--End Comment-->
 </div> <!--container-->
 {% endblock %}

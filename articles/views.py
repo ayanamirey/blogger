@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
+from markdownx.utils import markdownify
 
 from . import forms
 from .forms import EditArticle
@@ -24,7 +25,8 @@ def article_list(request):
 
 def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
-    return render(request, 'articles/article_detail.html', {'article': article})
+    body = markdownify(article.body)
+    return render(request, 'articles/article_detail.html', {'article': article, 'body': body})
 
 
 def article_delete(request, slug):
