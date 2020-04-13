@@ -22,6 +22,9 @@ class Article(TimestampedModel):
     tag = models.ManyToManyField(Tag, related_name="articles")
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, default=None, on_delete=models.CASCADE)
+    status = models.CharField(max_length=25,
+                              choices=(('draft', 'DRAFT'), ('inreview', 'INREVIEW'), ('published', 'PUBLISHED')),
+                              default='draft')
 
     def __str__(self):
         return self.title
