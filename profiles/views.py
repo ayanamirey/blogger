@@ -36,6 +36,7 @@ def update_profile(request):
     })
 
 
+@login_required
 def profile_detail(request):
     try:
         username = User.objects.get(username=request.user.username)
