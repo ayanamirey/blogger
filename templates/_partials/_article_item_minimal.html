@@ -1,0 +1,22 @@
+<article class="row mt-2">
+    <div class="col-md-12">
+        <h4 class="entry-title mb-1">
+            <a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a>
+        </h4>
+        <div class="entry-excerpt">
+            <p class="mb-2 mt-2">
+                {{ article.snippet_large }}
+            </p>
+        </div>
+        <div class="entry-meta align-items-center">
+            {% if article.created_at|date == article.updated_at|date %}
+            <span>Created: {{ article.created_at|date:'d.m.y H:i' }}</span>
+            {% else %}
+            <span>Updated: {{ article.updated_at|date:'d.m.y H:i' }}</span>
+            {% endif %}
+            <span class="middotDivider"></span>
+            <span class="readingTime" title="3 min read">5 min read</span>
+        </div>
+    </div>
+</article>
+<hr>

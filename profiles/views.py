@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.shortcuts import render, redirect
 
@@ -44,3 +45,32 @@ def profile_detail(request):
     articles = Article.objects.filter(author=username)
     return render(request, 'profile/profile_details.html',
                   {'articles': articles, 'profile': profile})
+
+
+NUMBER_OF_ARTICLES_PER_PAGE = 10
+
+
+def draft_articles(request):
+    username = request.user.username
+    all_articles = Article.objects.filter(author__username=username)
+    published = all_articles.filter(status='published')
+    draft = all_articles.filter(status='draft')
+    paginator = Paginator(draft, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+    return render(request, 'profile/my_articles.html',
+                  {'username': request.user, 'articles': articles, 'published_count': len(published),
+                   'draft_count': len(draft), 'draft': True})
+
+
+def published_articles(request):
+    username = request.user.username
+    all_articles = Article.objects.filter(author__username=username)
+    published = all_articles.filter(status='published')
+    draft = all_articles.filter(status='draft')
+    paginator = Paginator(published, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+    return render(request, 'profile/my_articles.html',
+                  {'username': request.user, 'articles': articles, 'published_count': len(published),
+                   'draft_count': len(draft), 'published': True})

@@ -1,13 +1,13 @@
 {% extends 'base_full_width.html' %}
 
 {% block content %}
-  <div class="create-article">
-    <h2>Create article</h2>
-    <form class="site-form" action="{% url 'articles:create' %}" method="post" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form }}
-      <input type="submit" name="" value="Create">
-    </form>
-    {{ form.media }}
-  </div>
+    <div class="create-article">
+        <h2>Create article</h2>
+        <form class="site-form pt-3" action="{% url 'articles:create' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" name="" value="Create">
+        </form>
+        {{ form.media }}
+    </div>
 {% endblock %}

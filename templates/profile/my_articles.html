@@ -1,0 +1,26 @@
+{% extends 'base_full_width.html' %}
+
+{% block content %}
+    <div class="h4 pb-3">My articles</div>
+    <ul class="nav nav-tabs list-style-none">
+        <li class="nav-item">
+            <a class="nav-link {% if draft %}active{% endif %}" href="{% url 'profiles:draft-articles' %}">
+                Draft ({{ draft_count }})
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if published %}active{% endif %}" href="{% url 'profiles:published-articles' %}">
+                Published ({{ published_count }})
+            </a>
+        </li>
+    </ul>
+    <div class="articles">
+        {% for article in articles %}
+            {% include '_partials/_article_item_minimal.html' %}
+        {% endfor %}
+    </div>
+    {% if articles.has_other_pages %}
+        {% include '_partials/pagination.html' %}
+    {% endif %}
+
+{% endblock content %}
