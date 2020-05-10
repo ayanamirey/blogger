@@ -10,6 +10,8 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    avatar = models.ImageField(default=None, blank=True, null=True,
+                               upload_to='users_photos/')
 
     def __str__(self):
         return self.user.username

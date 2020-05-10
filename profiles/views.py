@@ -32,7 +32,8 @@ def update_profile(request):
         profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'profile/profile_edit.html', {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
+        'avatar': username.profile.avatar
     })
 
 

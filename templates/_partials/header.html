@@ -1,3 +1,4 @@
+{% load static %}
 <div class="container">
     <div class="align-items-center w-100">
         <h1 class="logo float-left navbar-brand"><a href="/" class="logo">Merinda</a></h1>
@@ -9,7 +10,7 @@
                 {% if user.is_authenticated %}
                 <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
                     <li><a href="{% url 'articles:create' %}" class="btn">New Article</a></li>
-                    <li><a class="author-avatar" href="{% url 'profiles:profile-details' %}"><img title="@{{ user.username }}" src="/static/images/author-avata-1.jpg" alt=""></a></li>
+                    <li><a class="author-avatar" href="{% url 'profiles:profile-details' %}"><img title="@{{ user.username }}" src="{% if user.profile.avatar %} {{ user.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}" alt="img"></a></li>
                 <li>
                   <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                     {% csrf_token %}

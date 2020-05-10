@@ -1,8 +1,12 @@
 {% extends 'base_sidebar.html' %}
+{% load static %}
 
 {% block header %}Profile{% endblock %}
 {% block content %}
     {% if profile.user %}
+            <div class="avatar-wrapper">
+                <img class="profile-pic" src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}" alt="img"/>
+            </div>
         {% if profile.user.first_name %}
             <p>Name: {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
         {% endif %}
@@ -25,15 +29,16 @@
             <p>Birth date: {{ profile.birth_date }}</p>
         {% endif %}
         {% if user.username|lower == profile.user.username|lower %}
-            <form  action="{% url 'profiles:profile-update' %}">
+            <form action="{% url 'profiles:profile-update' %}">
                 <button class="btn btn-outline-success btn-default" type="submit">Edit profile</button>
             </form>
         {% endif %}
         <hr>
         <h2><a href="{% url 'profiles:draft-articles' %}" class="">My Articles</a></h2>
         {% if articles %}
-            {% for article in articles%}
-                <p><a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}</p>
+            {% for article in articles %}
+                <p><a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}
+                </p>
                 <br>
             {% endfor %}
         {% else %}

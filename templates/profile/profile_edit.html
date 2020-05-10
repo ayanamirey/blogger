@@ -1,12 +1,58 @@
 {% extends 'base_sidebar.html' %}
+{% load static %}
 
 {% block header %}Edit profile{% endblock %}
 
 {% block content %}
     <form method="post">
-          {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
+        {% csrf_token %}
+        <div class="form-group">
+
+            <div class="avatar-wrapper">
+                <img class="profile-pic" src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} " alt="img"/>
+                <div class="upload-button">
+                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                </div>
+            </div>
+
+{#            <div class="container">#}
+{#                <div id="avatar">#}
+{##}
+{#                </div>#}
+{#                <input class="upload-file" type="file">#}
+{#            </div>#}
+            <div class="col-auto pl-0">
+
+                <label class="col-auto pl-0 col-form-label">{{ user_form.first_name.label }}: </label>
+                {{ user_form.first_name }}
+                {{ user_form.first_name.errors }}
+            </div>
+            <div class="col-auto pl-0">
+                <label class="col-auto pl-0 col-form-label">{{ user_form.last_name.label }}: </label>
+                {{ user_form.last_name }}
+                {{ user_form.last_name.errors }}
+            </div>
+            <div class="col-auto pl-0">
+                <label class="col-auto pl-0 col-form-label">{{ user_form.email.label }}: </label>
+                {{ user_form.email }}
+                {{ user_form.email.errors }}
+            </div>
+            <div class="col-auto pl-0">
+                <label class="col-auto pl-0 col-form-label">{{ profile_form.bio.label }}: </label>
+                {{ profile_form.bio }}
+                {{ profile_form.bio.errors }}
+            </div>
+            <div class="col-auto pl-0">
+                <label class="col-auto pl-0 col-form-label">{{ profile_form.location.label }}: </label>
+                {{ profile_form.location }}
+                {{ profile_form.location.errors }}
+            </div>
+            <div class="col-auto pl-0">
+                <label class="col-auto pl-0 col-form-label">{{ profile_form.birth_date.label }}: </label>
+                {{ profile_form.birth_date }}
+                {{ profile_form.birth_date.errors }}
+            </div>
+        </div>
+        <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
     </form>
 {% endblock %}

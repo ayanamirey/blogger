@@ -1,15 +1,22 @@
+{% load static %}
 <article class="row justify-content-between mb-5 mr-0">
     <div class="col-md-9 ">
         <div class="align-self-center">
             <div class="capsSubtle mb-2">Editors‘ Pick</div>
-            <h3 class="entry-title mb-3"><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a></h3>
+            <h3 class="entry-title mb-3"><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a>
+            </h3>
             <div class="entry-excerpt">
                 <p>
-                   {{ article.snippet }}
+                    {{ article.snippet }}
                 </p>
             </div>
-            <div class="entry-meta align-items-center">
-                <a href="{% url 'profiles:profile-details' %}">{{ article.author }}</a> in <a href="archive.html">OneZero</a><br>
+            <div class="entry-meta align-items-center author-avatar ml-0">
+                <a href="{% url 'profiles:profile-details' %}">
+                    <a class="author-avatar mr-2" href="{% url 'profiles:profile-details' %}"><img class="avatar"
+                                                                                                   src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                                                                                                   alt="img"></a>
+                    {{ article.author }}
+                </a> in <a href="archive.html">OneZero</a><br>
                 <span>{{ article.date }}</span>
                 <span class="middotDivider"></span>
                 <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
