@@ -9,19 +9,19 @@
                 </ul>
                 {% if user.is_authenticated %}
                 <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                    <li><a href="{% url 'articles:create' %}" class="btn">New Article</a></li>
-                    <li><a class="author-avatar" href="{% url 'profiles:profile-details' %}"><img title="@{{ user.username }}" src="{% if user.profile.avatar %} {{ user.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}" alt="img"></a></li>
+                    <li><a href="{% url 'articles:create' %}" class="btn pt-1 pb-1">New Article</a></li>
+                    <li><a class="author-avatar ml-0" href="{% url 'profiles:profile-details' %}"><img title="@{{ user.username }}" src="{% if user.profile.avatar %} {{ user.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}" alt="img"></a></li>
                 <li>
                   <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
                     {% csrf_token %}
-                    <button class="btn btn-outline-success " type="submit">Logout</button>
+                    <button class="btn btn-outline-success h-50" type="submit">Logout</button>
                   </form>
                 </li>
                 </ul>
                 {% else %}
                  <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                    <li><a class="btn-link btn" href="{% url 'accounts:login' %}">Login</a></li>
-                    <li><a class="btn-link btn" href="{% url 'accounts:signup' %}">Signup</a></li>
+                    <li><a class="btn-link btn py-xl-1" href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a class="btn-link btn py-xl-1 " href="{% url 'accounts:signup' %}">Signup</a></li>
                 </ul>
                 {% endif %}
             </div>
