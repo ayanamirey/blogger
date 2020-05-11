@@ -9,18 +9,15 @@
         <div class="form-group">
 
             <div class="avatar-wrapper">
-                <img class="profile-pic" src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} " alt="img"/>
+                <img class="profile-pic"
+                     src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} "
+                     alt="img"/>
                 <div class="upload-button">
                     <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                 </div>
+                {{ profile_form.avatar }}
             </div>
 
-{#            <div class="container">#}
-{#                <div id="avatar">#}
-{##}
-{#                </div>#}
-{#                <input class="upload-file" type="file">#}
-{#            </div>#}
             <div class="col-auto pl-0">
 
                 <label class="col-auto pl-0 col-form-label">{{ user_form.first_name.label }}: </label>
