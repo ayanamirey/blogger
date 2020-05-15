@@ -15,7 +15,7 @@
             <span>Updated: {{ article.updated_at|date:'d.m.y H:i' }}</span>
             {% endif %}
             <span class="middotDivider"></span>
-            <span class="readingTime" title="3 min read">5 min read</span>
+            <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
         </div>
     </div>
 </article>
