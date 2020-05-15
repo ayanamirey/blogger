@@ -3,7 +3,7 @@
 {% block content %}
     <div class="h4 pb-3">My articles</div>
     <ul class="nav nav-tabs list-style-none">
-        <li class="nav-item">
+        <li class="ml-2 nav-item">
             <a class="nav-link {% if draft %}active{% endif %}" href="{% url 'profiles:draft-articles' %}">
                 Draft ({{ draft_count }})
             </a>

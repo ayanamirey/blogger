@@ -1,5 +1,5 @@
-<article class="row mt-2">
-    <div class="col-md-12">
+<article class="row mt-2 d-flex">
+    <div class="col ml-3 mr-auto">
         <h4 class="entry-title mb-1">
             <a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a>
         </h4>
@@ -10,13 +10,45 @@
         </div>
         <div class="entry-meta align-items-center">
             {% if article.created_at|date == article.updated_at|date %}
-            <span>Created: {{ article.created_at|date:'d.m.y H:i' }}</span>
+                <span>Created: {{ article.created_at|date:'d.m.y H:i' }}</span>
             {% else %}
-            <span>Updated: {{ article.updated_at|date:'d.m.y H:i' }}</span>
+                <span>Updated: {{ article.updated_at|date:'d.m.y H:i' }}</span>
             {% endif %}
             <span class="middotDivider"></span>
             <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
         </div>
     </div>
+    <div class="ml-auto mt-auto mb-auto mr-3 d-flex flex-column">
+            <form action="{% url 'articles:edit' article.slug %}" class="m-1">
+                <button type="submit" class="btn btn-info w-100 m-auto">Edit</button>
+            </form>
+            <form method="get" action="{% url 'articles:delete' article.slug %}" class="m-1">
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    Delete
+                </button>
+                <div class="modal" id="deleteModal">
+                    <div class="modal-dialog modal-dialog-centered modal-sm ">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Delete</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure to delete the article?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger">
+                                    Yes
+                                </button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    No
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
 </article>
 <hr>
