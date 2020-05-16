@@ -5,28 +5,10 @@
 {% block content %}
     {% if profile.user %}
         <div class="avatar-wrapper">
-{#            <a href="" data-target="#modalIMG" data-toggle="modal"#}
-{#               class="color-gray-darker c6 td-hover-none card-img-top">#}
-                <img class="profile-pic {% if profile.avatar %} avatar-modal {% endif %} "
-                     src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
-                     alt="img"/>
-{#            </a>#}
+            <img class="profile-pic {% if profile.avatar %} avatar-modal {% endif %} "
+                 src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                 alt="img"/>
         </div>
-        {#            <div aria-hidden="true" aria-labelledby="myModalLabel" class="modal fade" id="modalIMG" role="dialog" tabindex="-1">#}
-        {#                <div class="modal-dialog modal-lg" role="document">#}
-        {#                    <div class="modal-content">#}
-        {#                        <div class="modal-body bg-white d-inline-flex m-0 p-0 justify-content-center">#}
-        {#                            <img src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"#}
-        {#                                 alt="" style="width: 65%" class="">#}
-        {#                        </div>#}
-        {#                        <div class="modal-footer">#}
-        {#                            <button class="btn btn-outline-primary text-center"#}
-        {#                                    data-dismiss="modal" type="button">Close#}
-        {#                            </button>#}
-        {#                        </div>#}
-        {#                    </div>#}
-        {#                </div>#}
-        {#            </div>#}
         <div class="zafar_web">
             <div class="big_img">
                 <img class="view_img_full"

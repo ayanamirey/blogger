@@ -11,10 +11,11 @@
                 </p>
             </div>
             <div class="entry-meta align-items-center author-avatar ml-0">
-                <a href="{% url 'profiles:profile-details' %}">
-                    <a class="author-avatar mr-2" href="{% url 'profiles:profile-details' %}"><img class="avatar"
-                                                                                                   src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
-                                                                                                   alt="img"></a>
+                <a class="author-avatar mr-2" href="{% url 'users-profile' article.author %}"><img class="avatar"
+                    src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                    alt="img">
+                </a>
+                <a href="{% url 'users-profile' article.author %}">
                     {{ article.author }}
                 </a> in <a href="archive.html">OneZero</a><br>
                 <span>{{ article.date }}</span>

@@ -10,10 +10,11 @@
                 </h1>
                 <div class="d-flex">
                     <div class="entry-meta flex-grow-1">
-                    <a class="author-avatar mr-2" href="{% url 'profiles:profile-details' %}"><img class="avatar"
-                                                                                                   src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
-                                                                                                   alt="img"></a>
-                    <a href="{% url 'profiles:profile-details' %}">{{ article.author }}</a> in <a href="archive.html">OneZero</a><br>
+                    <a class="author-avatar mr-2" href="{% url 'users-profile' article.author %}">
+                        <img class="avatar"
+                        src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                        alt="img"></a>
+                    <a href="{% url 'users-profile' article.author %}">{{ article.author }}</a> in <a href="archive.html">OneZero</a><br>
                     <span>{{ article.date }}</span>
                     <span class="middotDivider"></span>
                     <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
