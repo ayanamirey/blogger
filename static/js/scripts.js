@@ -138,3 +138,28 @@ $(".file-upload").change(function () {
 $(".upload-button").click(function () {
     $(".file-upload").click();
 })
+
+$(".avatar-modal").click(function(){
+        var src_img = $(this).attr("src");
+        $("div.zafar_web img").attr("src", src_img);
+
+
+        $("div.zafar_web div.big_img").css({
+            'transform': 'translate(-50%, -50%) scale(1)',
+
+        });
+        $("div.zafar_web div.img_fixvh").css({
+            'display': 'flex'
+        });
+
+    });
+    $("div.zafar_web div.img_fixvh").click(function(){
+
+        $("div.zafar_web div.img_fixvh").css({
+            'display': 'none'
+        });
+        $("div.zafar_web div.big_img").css({
+            'transform': 'translate(-50%, -50%) scale(0)',
+
+        });
+    });
