@@ -38,7 +38,7 @@ class Article(TimestampedModel):
 
     def time_of_read(self):
         t1 = len(self.body) / 1500
-        t2 = len([m.start() for m in re.finditer("(?:!\[(.*?)\]\((.*?)\))", self.body)])
+        t2 = len([m.start() for m in re.finditer(r"(?:!\[(.*?)\]\((.*?)\))", self.body)])
         the_sum = t1 + t2
         n = int(the_sum * 10) % 10
         if the_sum < 1:

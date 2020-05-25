@@ -2,34 +2,35 @@
     <div class="align-items-center w-100">
         <h1 class="logo float-left navbar-brand"><a href="/" class="logo">Merinda</a></h1>
         <div class="header-right float-right w-50">
-            <div class="d-inline-flex float-right text-right align-items-center">
-                <ul class="social-network heading navbar-nav d-lg-flex align-items-center">
+            <div class="d-flex float-right text-right align-items-center">
+                <form action="{% url 'search' %}" method="get" class="search-form d-flex align-items-center">
+                    <a href="javascript:void(0)" class="searh-toggle">
+                        <i class="icon-search"></i>
+                    </a>
+                    <input type="text" class="search_field" placeholder="Search..." value="" name="q">
+                </form>
+                <ul class="social-network heading navbar-nav d-flex align-items-center ">
                     <li><a href="#"><i class="icon-facebook"></i></a></li>
                 </ul>
                 {% if user.is_authenticated %}
-                <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                    <li><a href="{% url 'articles:create' %}" class="btn">New Article</a></li>
-                    <li><a class="author-avatar" href="{% url 'profiles:profile-details' %}"><img title="@{{ user.username }}" src="/static/images/author-avata-1.jpg" alt=""></a></li>
-                <li>
-                  <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-success " type="submit">Logout</button>
-                  </form>
-                </li>
-                </ul>
+                    <ul class="top-menu heading nav w-100 d-lg-flex flex-nowrap align-items-center">
+                        <li class=""><a href="{% url 'articles:create' %}" class="btn pl-1 pr-1 w-100" style="">New Article</a></li>
+                        <li class=""><a class="author-avatar" href="{% url 'profiles:profile-details' %}"><img
+                                title="@{{ user.username }}" src="/static/images/author-avata-1.jpg" alt=""></a></li>
+                        <li class="">
+                            <form class="logout-link" action="{% url 'accounts:logout' %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-outline-success" type="submit">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
                 {% else %}
-                 <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                    <li><a class="btn-link btn" href="{% url 'accounts:login' %}">Login</a></li>
-                    <li><a class="btn-link btn" href="{% url 'accounts:signup' %}">Signup</a></li>
-                </ul>
+                    <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
+                        <li><a class="btn-link btn" href="{% url 'accounts:login' %}">Login</a></li>
+                        <li><a class="btn-link btn" href="{% url 'accounts:signup' %}">Signup</a></li>
+                    </ul>
                 {% endif %}
             </div>
-            <form action="#" method="get" class="search-form d-lg-flex float-right">
-                <a href="javascript:void(0)" class="searh-toggle">
-                    <i class="icon-search"></i>
-                </a>
-                <input type="text" class="search_field" placeholder="Search..." value="" name="s">
-            </form>
         </div>
     </div>
     <div class="clearfix"></div>

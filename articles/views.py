@@ -1,5 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from markdownx.utils import markdownify
 
@@ -84,3 +86,23 @@ def article_create(request):
     else:
         form = forms.CreateArticle()
     return render(request, 'articles/article_create.html', {'form': form})
+
+
+def article_search(request):
+    query = request.GET.get('q')
+    all_articles = Article.objects.filter(
+        Q(title__icontains=query) | Q(body__icontains=query) | Q(author__username__icontains=query)
+    ).order_by('date')
+    paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+    return render(request, 'search.html', {'articles': articles, 'is_articles': True, 'query': query})
+
+
+def article_tag_search(request):
+    query = request.GET.get('q')
+    all_tags = Tag.objects.filter(Q(title__icontains=query)).order_by('title')
+    paginator = Paginator(all_tags, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    tags = paginator.get_page(page)
+    return render(request, 'search.html', {'tags': tags, 'is_tags': True, 'query': query})

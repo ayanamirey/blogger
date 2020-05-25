@@ -1,0 +1,60 @@
+{% extends 'base_full_width.html' %}
+
+{% block content %}
+    <div>
+        <form class="d-flex"
+              action="{% if is_articles %} {% url 'search' %} {% elif is_users %} {% url 'search-users' %} {% else %} {% url 'search-tag' %} {% endif %}">
+            <input type="text" class="search mb-4" value="{{ query }}" placeholder="{{ query }}"
+                   name="q">
+        </form>
+    </div>
+    <ul class="nav nav-tabs list-style-none">
+        <li class="ml-2 nav-item">
+            <a class="nav-link {% if is_articles %}active{% endif %}"
+               href="{% url 'search' %}?q={{ query }}">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if is_users %}active{% endif %}"
+               href="{% url 'search-users' %}?q={{ query }}">Users</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if is_tags %}active{% endif %}"
+               href="{% url 'search-tag' %}?q={{ query }}">Tags</a>
+        </li>
+    </ul>
+    <div class="items mx-3">
+        {% if is_articles %}
+            <div class="articles mt-4">
+                {% for article in articles %}
+                    {% include '_partials/_article_item_minimal.html' %}
+                {% endfor %}
+            </div>
+            {% if  not articles %}
+                <b class="ml-3">No articles found!</b>
+            {% endif %}
+        {% elif is_users %}
+            <div class="fa-user mt-4">
+                {% for user in users %}
+                    {% include '_partials/_user_item.html' %}
+                {% endfor %}
+            </div>
+            {% if not users %}
+                <b class="ml-3">No users found!</b>
+            {% endif %}
+        {% elif is_tags %}
+            <div class="tags-wrap">
+                {% for tag in tags %}
+                    <span class="mb-2">
+                    <a href="{% url 'articles-by-tag' tag %}" rel="tag">{{ tag }}</a>
+                </span>
+                {% endfor %}
+            </div>
+            {% if not tags %}
+                <b class="ml-3">No tags found!</b>
+            {% endif %}
+        {% endif %}
+        {% if articles.has_other_pages or tags.has_other_pages or users.has_other_pages %}
+            {% include '_partials/pagination.html' %}
+        {% endif %}
+    </div>
+{% endblock content %}

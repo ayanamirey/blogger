@@ -18,7 +18,8 @@
             <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
         </div>
     </div>
-    <div class="ml-auto mt-auto mb-auto mr-3 d-flex flex-column">
+    {% if user.username|lower == article.author.username|lower %}
+        <div class="ml-auto mt-auto mb-auto mr-3 d-flex flex-column">
             <form action="{% url 'articles:edit' article.slug %}" class="m-1">
                 <button type="submit" class="btn btn-info w-100 m-auto">Edit</button>
             </form>
@@ -49,6 +50,7 @@
                 </div>
             </form>
         </div>
+    {% endif %}
 
 </article>
 <hr>

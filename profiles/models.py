@@ -17,6 +17,9 @@ class Profile(models.Model):
     def get_username(self):
         return reverse('user-details', args=[str(self.user.username)])
 
+    def snippet(self):
+        return self.bio[:150] + '...'
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
