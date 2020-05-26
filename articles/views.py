@@ -13,12 +13,12 @@ NUMBER_OF_ARTICLES_PER_PAGE = 10
 
 
 def articles_by_tag(request, tag):
-    articles = Article.objects.filter(tag__title=tag)
+    articles = Article.objects.filter(tag__title=tag, status='published')
     return render(request, 'articles/articles_by_tag.html', {'articles': articles, 'tag': tag})
 
 
 def article_list(request):
-    all_articles = Article.objects.all().order_by('date')
+    all_articles = Article.objects.filter(status='published').order_by('date')
     paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
     page = request.GET.get('page')
     articles = paginator.get_page(page)
@@ -92,7 +92,7 @@ def article_search(request):
     query = request.GET.get('q')
     all_articles = Article.objects.filter(
         Q(title__icontains=query) | Q(body__icontains=query) | Q(author__username__icontains=query)
-    ).order_by('date')
+    ).filter(status='published').order_by('date')
     paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
     page = request.GET.get('page')
     articles = paginator.get_page(page)

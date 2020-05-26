@@ -43,7 +43,7 @@ def profile_detail(request):
         profile = Profile.objects.get(user__username=username)
     except User.DoesNotExist:
         profile = None
-    articles = Article.objects.filter(author=username)
+    articles = Article.objects.filter(author=username, status='published')
     return render(request, 'profile/profile_details.html',
                   {'articles': articles, 'profile': profile})
 
