@@ -4,9 +4,23 @@
 
 {% block content %}
     <form method="post">
-          {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
     </form>
+
+    <br>
+    <hr>
+
+    <h2>Security</h2>
+    <div class="d-flex align-items-center">
+            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consectetur debitis, dignissimos
+                doloremque error esse ex facere iste labore laudantium neque non placeat, quia, quod sint sit temporibus
+                tenetur veniam!
+            </span>
+        <a href="{% url 'accounts:password_change' %}" class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change
+            Password</a>
+    </div>
+    <hr>
 {% endblock %}

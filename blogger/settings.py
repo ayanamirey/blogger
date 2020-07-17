@@ -65,6 +65,15 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ikhasanmusaevlite@gmail.com'
+EMAIL_HOST_PASSWORD = 'rV_bkJ2.5T,tX2w'
+EMAIL_PORT = 587
+
 ROOT_URLCONF = 'blogger.urls'
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
