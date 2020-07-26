@@ -19,8 +19,15 @@
                 doloremque error esse ex facere iste labore laudantium neque non placeat, quia, quod sint sit temporibus
                 tenetur veniam!
             </span>
-        <a href="{% url 'accounts:password_change' %}" class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change
+        <a href="{% if can_disconnect %}
+                    {% url 'accounts:password_change' %}{% else %} {% url 'accounts:password' %}
+                 {% endif %}"
+           class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change
             Password</a>
     </div>
     <hr>
+
+    <h2>Social</h2>
+    <div class="d-flex justify-content-around mt-3">{% include '_partials/settings.html' %}</div>
+
 {% endblock %}

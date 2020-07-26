@@ -6,15 +6,15 @@ from . import views
 app_name = 'accounts'
 
 urlpatterns = [
-    path(r'password/change/', auth_views.PasswordChangeView.as_view(
+    path('password/change/', auth_views.PasswordChangeView.as_view(
         success_url=reverse_lazy('accounts:password_change_done'),
         template_name='accounts/password_change_form.html',
     ),
         name='password_change'),
-    path(r'password/change/done/', auth_views.PasswordChangeDoneView.as_view(
+    path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(
         template_name='accounts/password_change_done.html',
     ), name='password_change_done'),
-    path(r'password/reset/complete/', auth_views.PasswordResetCompleteView.as_view(
+    path('password/reset/complete/', auth_views.PasswordResetCompleteView.as_view(
         template_name='accounts/password_reset_complete.html'
     ),
          name='password_reset_complete'),
@@ -24,15 +24,17 @@ urlpatterns = [
                 success_url=reverse_lazy('accounts:password_reset_complete')
             ),
             name='password_reset_confirm'),
-    path(r'password/reset/', auth_views.PasswordResetView.as_view(
+    path('password/reset/', auth_views.PasswordResetView.as_view(
         email_template_name='accounts/password_reset_email.html',
         subject_template_name='accounts/password_reset_subject.txt',
         success_url=reverse_lazy('accounts:password_reset_done'),
         template_name='accounts/password_reset_form.html',
     ), name='password_reset'),
-    path(r'password/reset/done/', auth_views.PasswordResetDoneView.as_view(
+    path('password/reset/done/', auth_views.PasswordResetDoneView.as_view(
         template_name='accounts/password_reset_done.html'
     ), name='password_reset_done'),
+
+    path('settings/password/', views.password, name='password'),
 
     path('signup/', views.signup_view, name="signup"),
     path('login/', views.login_view, name="login"),

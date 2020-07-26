@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'm$s&44l7*o(v(-=t=&6quojq#*-ya%4!!ujj-^0il$zdidh4g)'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -54,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
+
+    'accounts.middleware.GoogleAuthAlreadyAssociatedMiddleware'
 ]
 
 # specifying correct backends
@@ -61,10 +61,10 @@ MIDDLEWARE = [
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
 )
-
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -98,7 +98,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blogger.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -108,7 +107,6 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -128,7 +126,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -141,7 +138,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -164,12 +160,31 @@ MARKDOWNX_IMAGE_MAX_SIZE = {
 
 # Social Auth
 
-SOCIAL_AUTH_TWITTER_KEY = 'NOP4IWFmElCWSX3jBbOKvx7uL'
-SOCIAL_AUTH_TWITTER_SECRET = 'T462JXhyGGGM2u2yo4N63pCDNJOxQ5t75klgL0QufRy4T4L4wx'
+SOCIAL_AUTH_TWITTER_KEY = 'CAdfJwzzq7A1mYB3JaDrxfvub'
+SOCIAL_AUTH_TWITTER_SECRET = 'WzOOffqFGQ40Rtlx9UyNZ1M5Ftnh3VznSitsHZVQE7bSIURAcr'
 
-SOCIAL_AUTH_FACEBOOK_KEY = '578572609596071'
-SOCIAL_AUTH_FACEBOOK_SECRET = '7700454041058a44c3c7efb3e4ac1fd5'
+SOCIAL_AUTH_FACEBOOK_KEY = '300924674290303'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'f25d2332945d1024a55f353293c6ca69'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
 
-# SOCIAL_AUTH_LOGIN_ERROR_URL = '/settings/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'articles:list'
-# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '368365122388-q0ai5meb19b65c20kngc64hq45r4vm44.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'WRKWG_pKPglmTA4hxAZJIBWf'
+LOGIN_URL = '/auth/login/google-oauth2/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+# SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/profile/new'
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'articles:list'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'profiles:profile-details'
+SOCIAL_AUTH_RAISE_EXCEPTIONS = False
