@@ -1,12 +1,23 @@
-{% extends 'base_sidebar.html' %}
+{% extends 'base_full_width.html' %}
 
 {% block header %}Edit profile{% endblock %}
 
 {% block content %}
     <form method="post">
-          {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
+        {% csrf_token %}
+        {% for user in user_form %}
+            <label class="mb-0" for="{{ user.id_for_label }}"> {{ user.label_tag }}
+            </label>
+            <p>{{ user }}</p>
+            {{ user.errors }}
+        {% endfor %}
+        {% for profile in profile_form %}
+            <label class="mb-0" for="{{ profile.id_for_label }}"> {{ profile.label_tag }}
+            </label>
+            {{ profile }}
+            <p class="text-secondary small">{{ profile.help_text }}</p>
+            {{ profile.errors }}
+        {% endfor %}
+        <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
     </form>
 {% endblock %}

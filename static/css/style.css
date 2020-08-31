@@ -329,7 +329,7 @@ a.read-more:hover {
   letter-spacing: -1px;
 }
 /* FONTS & TYPOGRAPHY */
-body {  
+body {
   font-size: 16px;
   color: rgba(0,0,0,.84);
 }
@@ -367,10 +367,10 @@ body,
 a.searh-toggle:hover, a.searh-toggle:focus, a.searh-toggle:active {
   text-decoration: none;
 }
-.search-form {  
+.search-form {
   border-radius: 50px;
 }
-.search-form.open-search {  
+.search-form.open-search {
  border: 1px solid rgba(0,0,0,.34);
 }
 
@@ -386,7 +386,7 @@ input.search_field {
   width: 0; display: none; height: 30px;
 }
 .search-form.open-search .search_field:focus {
-  background: none; 
+  background: none;
   border: 0;
 }
 .header-right .search-form {
@@ -415,7 +415,7 @@ input.search_field {
   margin: 0 auto;
   margin-bottom: 3rem;
 }
-.menu-search-form input{  
+.menu-search-form input{
   height: 40px;
   border-radius: 50px;
   color: rgba(0,0,0,.54) !important;
@@ -598,10 +598,10 @@ header .logo-wrapper {
 	color: rgba(0,0,0,.84);
 }
 
-.social-network a:hover, .top-menu a:hover, .searh-toggle:hover {	
+.social-network a:hover, .top-menu a:hover, .searh-toggle:hover {
   color: rgba(0,0,0,.7);
 }
-.social-network a {	
+.social-network a {
   color: rgba(0,0,0,.54);
   border-radius: 50%;
   font-size: 13px;
@@ -624,6 +624,11 @@ header .logo-wrapper {
   height: 32px;
   width: 32px;
   max-width: unset;
+}
+
+ul.errorlist {
+  color: #ff3333;
+  list-style: none;
 }
 
 header {
@@ -1050,7 +1055,7 @@ ul.page-numbers li {
   padding: 0 10px 0 0;
 }
 ul.page-numbers li a {
-  
+
   color: rgba(0,0,0,.54) !important;
 }
 ul.page-numbers li span.current {
