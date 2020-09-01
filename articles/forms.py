@@ -23,3 +23,13 @@ class EditArticle(forms.ModelForm):
     class Meta:
         model = models.Article
         fields = ['title', 'body', 'slug', 'tag']
+
+
+class CommentForms(forms.ModelForm):
+    class Meta:
+        model = models.Comment
+        fields = ['content', ]
+
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'required': True, 'style': 'resize: vertical; min-height: 160px; height: 200px'}),
+        error_messages='', label='Content')

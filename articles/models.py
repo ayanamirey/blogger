@@ -49,3 +49,20 @@ class Article(TimestampedModel):
             else:
                 result = str(the_sum)
         return result + ' min'
+
+    def get_comments(self):
+        return self.comment_set.filter(parent__isnull=True)
+
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField(max_length=5000)
+    parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    created_on = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=25,
+                              choices=(('active', 'ACTIVE'), ('deleted', 'DELETED')),
+                              default='active')
+
+    def __str__(self):
+        return self.content[0:200]

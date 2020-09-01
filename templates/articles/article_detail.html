@@ -1,6 +1,6 @@
 {% extends 'base_single.html' %}
 
-{% block header%}{{ article.title }}{% endblock %}
+{% block header%}{{ article.title |capfirst }}{% endblock %}
 
 {% block content %}
   <p>{{ body|safe }}</p>
@@ -18,3 +18,4 @@
         </div>
     {% endif %}
 {% endblock %}
+

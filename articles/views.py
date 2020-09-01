@@ -7,7 +7,7 @@ from markdownx.utils import markdownify
 
 from . import forms
 from .forms import EditArticle
-from .models import Article, Tag
+from .models import Article, Tag, Comment
 
 NUMBER_OF_ARTICLES_PER_PAGE = 10
 
@@ -26,9 +26,14 @@ def article_list(request):
 
 
 def article_detail(request, slug):
+    form = forms.CommentForms(request.POST)
     article = Article.objects.get(slug=slug)
+    comments_count = len(article.comment_set.all()) - len(
+        Comment.objects.filter(parent__isnull=False, status='deleted'))
+
     body = markdownify(article.body)
-    return render(request, 'articles/article_detail.html', {'article': article, 'body': body})
+    return render(request, 'articles/article_detail.html',
+                  {'article': article, 'body': body, 'form': form, 'comments_count': comments_count})
 
 
 def article_delete(request, slug):
@@ -106,3 +111,26 @@ def article_tag_search(request):
     page = request.GET.get('page')
     tags = paginator.get_page(page)
     return render(request, 'search.html', {'tags': tags, 'is_tags': True, 'query': query})
+
+
+@login_required(login_url="/accounts/login/")
+def add_comment(request, pk):
+    form = forms.CommentForms(request.POST)
+    article = Article.objects.get(id=pk)
+    if form.is_valid():
+        form = form.save(commit=False)
+        if request.POST.get('parent', None):
+            form.parent_id = int(request.POST.get('parent'))
+        form.article = article
+        form.author = request.user
+        form.save()
+    return redirect('articles:detail', article.slug)
+
+
+def delete_comment(request, pk):
+    print(pk, 1)
+    comment = Comment.objects.get(id=pk)
+    slug = comment.article.slug
+    comment.status = 'deleted'
+    comment.save(update_fields=['status'])
+    return redirect('articles:detail', slug)

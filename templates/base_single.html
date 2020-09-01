@@ -22,37 +22,39 @@
                         </span>
                     </div>
                     {% if user.username|lower == article.author.username|lower %}
-                    <div class="d-flex">
-                        <form action="{% url 'articles:edit' article.slug %}" class="mr-1">
-                            <button type="submit" class="btn btn-info">Edit</button>
-                        </form>
-                        <form method="get" action="{% url 'articles:delete' article.slug %}" class="ml-1">
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
-                                Delete
-                            </button>
-                            <div class="modal" id="deleteModal">
-                                <div class="modal-dialog modal-dialog-centered modal-sm ">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            Are you sure to delete the article?
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-danger">
-                                                Yes
-                                            </button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                                No
-                                            </button>
+                        <div class="d-flex">
+                            <form action="{% url 'articles:edit' article.slug %}" class="mr-1">
+                                <button type="submit" class="btn btn-info">Edit</button>
+                            </form>
+                            <form method="get" action="{% url 'articles:delete' article.slug %}" class="ml-1">
+                                <button type="button" class="btn btn-danger text" data-toggle="modal"
+                                        data-target="#deleteModal">
+                                    Delete
+                                </button>
+                                <div class="modal" id="deleteModal">
+                                    <div class="modal-dialog modal-dialog-centered modal-sm ">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Are you sure to delete the article?
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-danger">
+                                                    Yes
+                                                </button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    No
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -61,7 +63,7 @@
         <!--        <img src="http://via.placeholder.com/1240x700" alt="post-title" />-->
         <!--    </figure>-->
 
-        <article class="entry-wraper mb-5">
+        <article class="entry-wraper mb-2">
             <div class="entry-left-col">
                 <div class="social-sticky">
                     <a href="#"><i class="icon-facebook"></i></a>
@@ -85,9 +87,62 @@
         <!--Begin post related-->
         {# include '_partials/related.html' #}
         <!--End post related-->
+        <div class="entry-wraper">
+            <!--Begin Comment-->
+            <h4 class="font-weight-bold">Comments {{ comments_count }}</h4>
+            {% if comments_count > 0 %}
 
-        <!--Begin Comment-->
-        {# include '_partials/comment.html' #}
+                {% for comment in article.get_comments %}
+                    {% if comment.status|lower == 'active' or comment.comment_set.all|length != 0 %}
+                        {% include '_partials/_comment_item.html' %}
+                        <div class="pl-4">
+                            {% for comment in comment.comment_set.all %}
+                                {% if comment.status|lower == 'active' %}
+                                    {% include '_partials/_comment_item.html' %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="text-center my-4 font-italic large">Write your first commit</div>
+            {% endif %}
+
+        </div>
+
+        {% include '_partials/comment.html' %}
         <!--End Comment-->
     </div> <!--container-->
+{% endblock %}
+
+{% block jslibs %}
+    <script>
+        function replying(id_loop, parent_loop_id = 0) {
+            let id = $(`#comment-${id_loop} div.p-0 div.my-1`).attr('id')
+            if (Number(parent_loop_id) !== 0) {
+                id = $(`#comment-${parent_loop_id} div.p-0 div.my-1`).attr('id')
+            }
+            let reply = $(`#reply-comment-${id_loop}`)
+            if (reply.is(':empty')) {
+                reply.append(
+                    `<form action="{% url 'articles:add-comment' article.id %}" method="post" class="comment-form"">
+                    {% csrf_token %}
+                    <p class="comment-form-comment">
+                        <textarea name="content" cols="60" rows="2" required="" style="resize: vertical; min-height: 65px;"></textarea>
+                    </p>
+                    <p class="form-submit">
+                        <input type="hidden" name="parent" value="${id}">
+                        <input name="submit" type="submit" id="submit" class="btn btn-success"
+                               value="Post Comment">
+                        <input type="button" onclick="hideReply(${id_loop})" value="Cancel" class="btn btn-outline-dark text-dark ml-3">
+                    </p>
+                </form>`
+                )
+            }
+        }
+
+        function hideReply(id_loop) {
+            $(`#reply-comment-${id_loop}`).empty()
+        }
+    </script>
 {% endblock %}
