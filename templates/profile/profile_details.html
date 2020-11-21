@@ -9,7 +9,7 @@
                  src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
                  alt="img"/>
         </div>
-        <div class="zafar_web">
+        <div class="profile_avatar_modal">
             <div class="big_img">
                 <img class="view_img_full"
                      src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
@@ -42,9 +42,9 @@
             <p>Birth date: {{ profile.birth_date }}</p>
         {% endif %}
         {% if user.username|lower == profile.user.username|lower %}
-            <form action="{% url 'profiles:profile-update' %}">
+            <a href="{% url 'profiles:profile-update' %}">
                 <button class="btn btn-outline-success btn-default" type="submit">Edit profile</button>
-            </form>
+            </a>
         {% endif %}
         <hr>
         <h2><a href="{% url 'profiles:draft-articles' %}" class="">My Articles</a></h2>
@@ -61,6 +61,4 @@
         <p>No user with given username!</p>
     {% endif %}
     <br>
-
-
 {% endblock %}

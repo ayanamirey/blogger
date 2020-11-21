@@ -9,9 +9,11 @@
         <div class="form-group">
 
             <div class="avatar-wrapper">
-                <img class="profile-pic"
-                     src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} "
-                     alt="img"/>
+                <div class="h-100 d-flex align-items-center">
+                    <img class="profile-pic my-auto"
+                         src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} "
+                         alt="img"/>
+                </div>
                 <div class="upload-button">
                     <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
                 </div>

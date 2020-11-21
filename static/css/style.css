@@ -450,7 +450,7 @@ input.search_field {
   float: left;
 }
 
-div.zafar_web div.big_img {
+div.profile_avatar_modal div.big_img {
   position: fixed;
   background-color: rgba(58,52,52,.5);
   top: 50%;
@@ -479,13 +479,13 @@ div.zafar_web div.big_img {
   max-width: 90%;
 }
 
-div.zafar_web div.big_img img {
+div.profile_avatar_modal div.big_img img {
   position: relative;
   z-index: 1000999;
   width: 100%;
 }
 
-div.zafar_web div.img_fixvh {
+div.profile_avatar_modal div.img_fixvh {
   position: fixed;
   top: 0;
   left: 0;
@@ -500,7 +500,7 @@ div.zafar_web div.img_fixvh {
           justify-content: flex-end;
 }
 
-div.zafar_web div.img_fixvh span {
+div.profile_avatar_modal div.img_fixvh span {
   width: 60px;
   height: 60px;
   padding: 5px;
@@ -516,13 +516,13 @@ div.zafar_web div.img_fixvh span {
           justify-content: center;
 }
 
-div.zafar_web div.img_fixvh span i {
+div.profile_avatar_modal div.img_fixvh span i {
   font-size: 50px;
   color: #fff;
   font-weight: 300;
 }
 
-div.zafar_web div.img_fixvh span:hover {
+div.profile_avatar_modal div.img_fixvh span:hover {
   background-color: #2c2c2c;
 }
 
@@ -544,7 +544,7 @@ div.zafar_web div.img_fixvh span:hover {
 	 opacity: 0.5;
 }
  .avatar-wrapper .profile-pic {
-	 height: 100%;
+	 /*height: 100%;*/
 	 width: 100%;
 	 transition: all 0.3s ease;
 }
@@ -553,8 +553,8 @@ div.zafar_web div.img_fixvh span:hover {
 	 content: "\f007";
 	 top: 0;
 	 left: 0;
-	 width: 100%;
-	 height: 100%;
+	 /*width: 100%;*/
+	 /*height: 100%;*/
 	 position: absolute;
 	 font-size: 190px;
 	 background: #ecf0f1;

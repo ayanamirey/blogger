@@ -141,24 +141,24 @@ $(".upload-button").click(function () {
 
 $(".avatar-modal").click(function(){
         var src_img = $(this).attr("src");
-        $("div.zafar_web img").attr("src", src_img);
+        $("div.profile_avatar_modal img").attr("src", src_img);
 
 
-        $("div.zafar_web div.big_img").css({
+        $("div.profile_avatar_modal div.big_img").css({
             'transform': 'translate(-50%, -50%) scale(1)',
 
         });
-        $("div.zafar_web div.img_fixvh").css({
+        $("div.profile_avatar_modal div.img_fixvh").css({
             'display': 'flex'
         });
 
     });
-    $("div.zafar_web div.img_fixvh").click(function(){
+    $("div.profile_avatar_modal div.img_fixvh").click(function(){
 
-        $("div.zafar_web div.img_fixvh").css({
+        $("div.profile_avatar_modal div.img_fixvh").css({
             'display': 'none'
         });
-        $("div.zafar_web div.big_img").css({
+        $("div.profile_avatar_modal div.big_img").css({
             'transform': 'translate(-50%, -50%) scale(0)',
 
         });
