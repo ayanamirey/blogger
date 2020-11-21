@@ -6,6 +6,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
+<<<<<<< HEAD
         <div class="form-group">
 
             <div class="avatar-wrapper">
@@ -52,6 +53,31 @@
                 {{ profile_form.birth_date.errors }}
             </div>
         </div>
+=======
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+>>>>>>> task/basic-auth
         <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
     </form>
+
+    <br>
+    <hr>
+
+    <h2>Security</h2>
+    <div class="d-flex align-items-center">
+            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consectetur debitis, dignissimos
+                doloremque error esse ex facere iste labore laudantium neque non placeat, quia, quod sint sit temporibus
+                tenetur veniam!
+            </span>
+        <a href="{% if can_disconnect %}
+                    {% url 'accounts:password_change' %}{% else %} {% url 'accounts:password' %}
+                 {% endif %}"
+           class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change
+            Password</a>
+    </div>
+    <hr>
+
+    <h2>Social</h2>
+    <div class="d-flex justify-content-around mt-3">{% include '_partials/settings.html' %}</div>
+
 {% endblock %}

@@ -1,0 +1,38 @@
+<div class="d-flex flex-column align-items-center">
+    <h3 class="mb-3">Twitter <i class="icon-twitter text-info"></i></h3>
+    {% if twitter_login %}
+        <form method="post"
+              action="{% if can_disconnect %} {% url 'social:disconnect' 'twitter' %} {% else %} {% url 'accounts:password' %} {% endif %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success">Disconnect from Twitter</button>
+        </form>
+    {% else %}
+        <a href="{% url 'social:begin' 'twitter' %}">Connect to Twitter</a>
+    {% endif %}
+</div>
+
+<div class="d-flex flex-column align-items-center">
+    <h3 class="mb-3">Facebook <i class="icon-facebook text-primary"></i></h3>
+    {% if facebook_login %}
+        <form method="post"
+              action="{% if can_disconnect %} {% url 'social:disconnect' 'facebook' %} {% else %} {% url 'accounts:password' %} {% endif %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success">Disconnect from Facebook</button>
+        </form>
+    {% else %}
+        <a href="{% url 'social:begin' 'facebook' %}">Connect to Facebook</a>
+    {% endif %}
+</div>
+
+<div class="d-flex flex-column align-items-center">
+    <h3 class="mb-3">Google+ <i class="icon-google text-danger"></i></h3>
+    {% if google_login %}
+        <form method="post"
+              action="{% if can_disconnect %} {% url 'social:disconnect' 'google-oauth2' %} {% else %} {% url 'accounts:password' %} {% endif %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-success">Disconnect from Google+</button>
+        </form>
+    {% else %}
+        <a href="{% url 'social:begin' 'google-oauth2' %}">Connect to Google</a>
+    {% endif %}
+</div>

@@ -9,6 +9,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')),
     path('articles/', include('articles.urls')),
     re_path('^tags/(?P<tag>[\\w-]+)', article_views.articles_by_tag, name='articles-by-tag'),
     path('', article_views.article_list, name="home"),

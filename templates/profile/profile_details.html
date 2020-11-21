@@ -50,7 +50,8 @@
         <h2><a href="{% url 'profiles:draft-articles' %}" class="">My Articles</a></h2>
         {% if articles %}
             {% for article in articles %}
-                <p><a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}
+                <p>
+                    <a href="{% url 'articles:detail' slug=article.slug %} ">{{ article.title }}</a> - {{ article.date }}
                 </p>
                 <br>
             {% endfor %}
