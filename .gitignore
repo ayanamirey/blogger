@@ -88,3 +88,5 @@ db.sqlite3
 
 .idea
 media
+/venv/
+venv/
