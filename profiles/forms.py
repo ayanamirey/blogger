@@ -6,20 +6,21 @@ from profiles.models import Profile
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email')
-
-    last_name = forms.CharField(required=False)
-    username = forms.CharField(min_length=3)
+        fields = ('first_name', 'last_name', 'email')
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ('bio', 'location', 'birth_date')
-
-    bio = forms.Textarea()
-    location = forms.CharField(required=False)
-    birth_date = forms.DateField(required=False,
-                                 widget=forms.DateInput(format='%d-%m-%Y'),
-                                 input_formats=('%d-%m-%Y',), help_text='Hint to date DD-MM-YYYY',
-                                 )
+        fields = ('bio', 'location', 'birth_date', 'avatar')
+        widgets = {
+            'bio': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
+            'location': forms.TextInput(attrs={'class': 'form-control'}),
+            'birth_date': forms.DateInput(attrs={'class': 'form-control'}),
+            'avatar': forms.FileInput(attrs={'class': 'file-upload', 'required': False})
+        }
