@@ -1,20 +1,21 @@
+{% load static %}
 <div class="comment row-flex mx-auto my-3" id="comment-{{ forloop.parentloop.counter }}{{ forloop.counter }}">
 
     <div class="p-0 w-100">
         <div class="{% if article.author.username|lower == comment.author.username|lower %} bg-lightblue {% endif %} d-flex align-items-center">
-            <a class="author-avatar mx-1" href="#">
-                <img class=""
-                     src="/static/images/author-avata-1.jpg"
-                     alt="">
+            <a class="author-avatar mx-1" href="{% url 'users-profile' comment.author %}">
+                <img class="avatar"
+                     src="{% if comment.author.profile.avatar %} {{ comment.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                     alt="img">
             </a>
-            <a href="#" class="text-author ml-1">
+            <a href="{% url 'users-profile' comment.author %}" class="text-author ml-1">
                 <h5 class="font-weight-bold" id="author_name">{{ comment.author }}</h5>
             </a>
             <span class="datetime small text-secondary ml-auto mr-1">{{ comment.created_on|date:'d.n.y H:i' }}</span>
         </div>
         <div class="my-1 px-1" id="{{ comment.id }}">
             {% if comment.status|lower == "active" %}
-                {{ comment.content }}
+                {{ comment.content|capfirst }}
             {% else %}
                 This comment deleted by Author
             {% endif %}
