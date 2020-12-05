@@ -145,14 +145,12 @@ def delete_comment(request, pk):
 def liking(request):
     if request.method == 'POST':
         article_id = request.POST['article_id']
-        likes = LikeOfArticle.objects.filter(article__id=article_id)
-        liked = likes.filter(user_id=request.user.id).exists()
+        obj, liked = LikeOfArticle.objects.update_or_create(user_id=request.user.id, article_id=article_id)
         if not liked:
-            LikeOfArticle(article_id=article_id, user_id=request.user.id).save()
-        else:
-            LikeOfArticle.objects.filter(article_id=article_id).delete()
+            obj.delete()
+        likes = LikeOfArticle.objects.filter(article__id=article_id)
         count_of_likes = likes.count()
-        return JsonResponse({'liked': not liked, 'count_of_likes': count_of_likes}, status=201)
+        return JsonResponse({'liked': liked, 'count_of_likes': count_of_likes}, status=201)
     else:
         return JsonResponse({'error': 'Error'}, status=400)
 
@@ -161,14 +159,10 @@ def liking(request):
 def add_to_favourite(request):
     if request.method == 'POST':
         article_id = request.POST['article_id']
-        obj, favourite = FavouriteArticles.objects.get_or_create(defaults={
-            'article_id': article_id,
-            'user_id': request.user.id
-        })
+        obj, favourite = FavouriteArticles.objects.get_or_create(user_id=request.user.id, article_id=article_id)
         if not favourite:
             obj.delete()
-        print(favourite)
-        return JsonResponse({'favourite': not favourite}, status=201)
+        return JsonResponse({'favourite': favourite}, status=201)
     else:
         return JsonResponse({'error': 'Error'}, status=400)
 

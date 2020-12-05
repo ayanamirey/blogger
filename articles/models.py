@@ -94,8 +94,8 @@ class Category(models.Model):
 
 
 class LikeOfArticle(models.Model):
-    article = models.OneToOneField('Article', on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

@@ -9,17 +9,17 @@
 {% block bottom %}
     <div class="d-flex col-10 mx-auto align-items-center">
 
-        <div title="Like" class="mr-auto like-icon">
-            <input type="checkbox" hidden id="like-checkbox" {% if liked %}checked{% endif %}>
-            <i class="icon-heart" style="font-size: 35px; cursor: pointer"
+        <div class="mr-auto like-icon">
+            <i class="icon-heart{% if liked %}-fill{% endif %}" style="font-size: 35px; cursor: pointer" data-original-title="Like" title
+               data-toggle="tooltip" data-placement="top"
                onclick="{% if user.is_authenticated %}liking(event){% else %}to_login(){% endif %}"></i>
             <span id="count_of_likes">
                 {% if count_of_likes %}x{{ count_of_likes }}{% endif %}
             </span>
         </div>
 
-        <div class="dropleft">
-            <i class="icon-share mr-2" title="Share" data-toggle="dropdown"
+        <div class="dropleft" data-original-title="Share" title data-toggle="tooltip" data-placement="top">
+            <i class="icon-share mr-2" data-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false"
                style="font-size: 35px; cursor: pointer"></i>
             <div class="dropdown-menu">
@@ -31,14 +31,15 @@
                 <div class="dropdown-divider"></div>
                 <div class="dropdown-item logout-link" onclick="copyToClipboard('{{ request.build_absolute_uri }}')">
                     <a href="javascript:void(0);">
-                        <i class="icon-link"></i>Copy <Link>
+                        <i class="icon-link"></i>Copy Link>
                     </a>
                 </div>
             </div>
         </div>
 
         <i class="icon-bookmark{% if not favourite %}-empty{% endif %} m-0"
-           style="font-size: 35px; cursor: pointer" title="Favourite"
+           style="font-size: 35px; cursor: pointer" data-original-title="Favourite" title data-toggle="tooltip"
+           data-placement="top"
            onclick="{% if user.is_authenticated %}addToFavourite(event){% else %}to_login(){% endif %}"></i>
     </div>
     {% if article.tag %}

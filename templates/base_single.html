@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load social_share %}
 {% load static %}
 
 {% block root_content %}
@@ -69,10 +70,10 @@
         <article class="entry-wraper mb-2">
             <div class="entry-left-col">
                 <div class="social-sticky">
-                    <a href="#"><i class="icon-facebook"></i></a>
-                    <a href="#"><i class="icon-twitter"></i></a>
-                    <a href="javascript:void(0);"><i class="icon-heart" onclick="liking(event)"></i></a>
-                    <a href="#"><i class="icon-paper-plane"></i></a>
+                    <span>{% post_to_facebook request.build_absolute_uri '<i class="icon-facebook"></i></a>'|safe %}</span>
+                    <span>{% post_to_twitter article.title request.build_absolute_uri '<i class="icon-twitter"></i>'|safe %}</span>
+                    <span>{% post_to_telegram article.title request.build_absolute_uri '<i class="icon-telegram"></i>'|safe %}</span>
+                    <a href="javascript:void(0);" class="like-icon"><i class="icon-heart{% if liked %}-fill{% endif %}" onclick="liking(event)"></i></a>
                 </div>
             </div>
             <div class="entry-main-content mb-1">
@@ -120,17 +121,8 @@
 
 {% block jslibs %}
     <script>
-        function share_fb() {
-            console.log(12)
-            FB.ui({
-                method: 'share',
-                href: 'https://google.com',
-            }, function (response) {
-            });
-        };
-
-        let heart = $(".icon-heart")
-        let path = heart.find('path')
+        let heart = $(".icon-heart").length ? $(".icon-heart") : $(".icon-heart-fill")
+        console.log(heart)
         liking = async function (e) {
             e.preventDefault();
             await $.ajax({
@@ -145,17 +137,15 @@
                     const liked = data['liked']
                     const count_of_likes = data['count_of_likes']
                     const count_of_likes_tag = $('#count_of_likes')
-                    if (!liked) {
-                        heart.removeClass('is_checked').addClass("icon-heart");
-                        heart.removeClass("icon-heart-fill").removeClass("animate");
-                        $('#like-checkbox').prop('checked', true);
-                        count_of_likes_tag.html(count_of_likes !== 0 ? 'x' + count_of_likes : '')
-                    } else {
-                        heart.removeClass('is_checked').addClass("icon-heart-fill").addClass("animate");
+                    if (liked) {
                         heart.removeClass("icon-heart");
-                        $('#like-checkbox').prop('checked', false);
-                        count_of_likes_tag.html(count_of_likes !== 0 ? 'x' + count_of_likes : '')
+                        heart.removeClass('is_checked').addClass("icon-heart-fill").addClass("animate");
+                    } else {
+                        heart.removeClass("icon-heart-fill").removeClass("animate");
+                        heart.removeClass('is_checked').addClass("icon-heart");
                     }
+                    count_of_likes_tag.html(count_of_likes !== 0 ? 'x' + count_of_likes : '')
+
                 },
                 error: (xhr, status, error) => {
                     $('body').append(`
@@ -176,8 +166,8 @@
             return
         }
 
-        if ($('#like-checkbox').is(':checked')) {
-            heart.attr('class', 'is_checked icon-heart-fill')
+        if ($('.icon-heart-fill').length) {
+            heart.addClass('is_checked')
         }
 
         function replying(id_loop, parent_loop_id = 0) {
@@ -220,10 +210,8 @@
                 dataType: 'json',
                 success: (data, status) => {
                     if ($('.icon-bookmark-empty').length) {
-                        console.log(123)
                         $('.icon-bookmark-empty').addClass('icon-bookmark').removeClass('icon-bookmark-empty').addClass("animate");
                     } else if ($('.icon-bookmark'.length)) {
-                        console.log(12)
                         $('.icon-bookmark').addClass('icon-bookmark-empty').removeClass('icon-bookmark').removeClass("animate");
                     }
                 },
@@ -246,5 +234,10 @@
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text)
         }
+
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     </script>
 {% endblock %}

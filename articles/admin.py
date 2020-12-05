@@ -1,7 +1,7 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
 
-from .models import Article, Tag, Comment, Category, LikeOfArticle
+from .models import Article, Tag, Comment, Category, LikeOfArticle, FavouriteArticles
 
 # admin.site.register(LikeOfArticle)
 admin.site.register(Tag)
@@ -23,5 +23,10 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(LikeOfArticle)
 class LikesAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id')
+
+
+@admin.register(FavouriteArticles)
+class FavouriteArticlesAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'id')
 

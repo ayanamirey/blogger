@@ -15,7 +15,7 @@
                         <li><a href="{% url 'articles:create' %}" class="btn pt-1 pb-1">New Article</a></li>
                         <li>
                             <div class="author-avatar dropdown">
-                                <img title="@{{ user.username }}" class="dropdown-toggle" data-toggle="dropdown"
+                                <img title="@{{ user.username }}" class="dropdown-toggle cursor-pointer" data-toggle="dropdown"
                                      aria-haspopup="true" aria-expanded="false"
                                      src="{% if user.profile.avatar %} {{ user.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
                                      alt="img">
