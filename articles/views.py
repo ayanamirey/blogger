@@ -2,12 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from markdownx.utils import markdownify
 
 from . import forms
 from .forms import EditArticle
-from .models import Article, Tag, Comment
+from .models import Article, Tag, Comment, LikeOfArticle, FavouriteArticles
 
 NUMBER_OF_ARTICLES_PER_PAGE = 10
 
@@ -30,10 +31,15 @@ def article_detail(request, slug):
     article = Article.objects.get(slug=slug)
     comments_count = len(article.comment_set.all()) - len(
         Comment.objects.filter(parent__isnull=False, status='deleted'))
+    liked = LikeOfArticle.objects.filter(article__id=article.id, user_id=request.user.id).exists()
+    count_of_likes = article.count_of_likes
+
+    favourite = FavouriteArticles.objects.filter(article__id=article.id, user_id=request.user.id).exists()
 
     body = markdownify(article.body)
     return render(request, 'articles/article_detail.html',
-                  {'article': article, 'body': body, 'form': form, 'comments_count': comments_count})
+                  {'article': article, 'body': body, 'form': form, 'comments_count': comments_count, 'liked': liked,
+                   'count_of_likes': count_of_likes, 'favourite': favourite})
 
 
 def article_delete(request, slug):
@@ -128,9 +134,50 @@ def add_comment(request, pk):
 
 
 def delete_comment(request, pk):
-    print(pk, 1)
     comment = Comment.objects.get(id=pk)
     slug = comment.article.slug
     comment.status = 'deleted'
     comment.save(update_fields=['status'])
     return redirect('articles:detail', slug)
+
+
+@login_required(login_url="/accounts/login/")
+def liking(request):
+    if request.method == 'POST':
+        article_id = request.POST['article_id']
+        likes = LikeOfArticle.objects.filter(article__id=article_id)
+        liked = likes.filter(user_id=request.user.id).exists()
+        if not liked:
+            LikeOfArticle(article_id=article_id, user_id=request.user.id).save()
+        else:
+            LikeOfArticle.objects.filter(article_id=article_id).delete()
+        count_of_likes = likes.count()
+        return JsonResponse({'liked': not liked, 'count_of_likes': count_of_likes}, status=201)
+    else:
+        return JsonResponse({'error': 'Error'}, status=400)
+
+
+@login_required(login_url="/accounts/login/")
+def add_to_favourite(request):
+    if request.method == 'POST':
+        article_id = request.POST['article_id']
+        obj, favourite = FavouriteArticles.objects.get_or_create(defaults={
+            'article_id': article_id,
+            'user_id': request.user.id
+        })
+        if not favourite:
+            obj.delete()
+        print(favourite)
+        return JsonResponse({'favourite': not favourite}, status=201)
+    else:
+        return JsonResponse({'error': 'Error'}, status=400)
+
+
+def favourite_articles(request):
+    user_id = request.user.id
+    favourite_ids = [i.article_id for i in FavouriteArticles.objects.filter(user_id=user_id).only('article_id')]
+    all_articles = Article.objects.filter(id__in=favourite_ids)
+    paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
+    page = request.GET.get('page')
+    articles = paginator.get_page(page)
+    return render(request, 'articles/favourite_articles.html', {'articles': articles})

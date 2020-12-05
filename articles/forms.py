@@ -13,7 +13,7 @@ class CreateArticle(forms.ModelForm):
 
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'slug', 'tag']
+        fields = ['title', 'body', 'slug', 'category', 'tag']
 
 
 class EditArticle(forms.ModelForm):

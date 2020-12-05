@@ -71,15 +71,15 @@
                 <div class="social-sticky">
                     <a href="#"><i class="icon-facebook"></i></a>
                     <a href="#"><i class="icon-twitter"></i></a>
-                    <a href="#"><i class="icon-heart"></i></a>
+                    <a href="javascript:void(0);"><i class="icon-heart" onclick="liking(event)"></i></a>
                     <a href="#"><i class="icon-paper-plane"></i></a>
                 </div>
             </div>
-            <div class="entry-main-content">
+            <div class="entry-main-content mb-1">
                 {% block content %}
                 {% endblock %}
             </div>
-            <div>
+            <div class="">
                 {% block bottom %}
                 {% endblock %}
             </div>
@@ -120,6 +120,66 @@
 
 {% block jslibs %}
     <script>
+        function share_fb() {
+            console.log(12)
+            FB.ui({
+                method: 'share',
+                href: 'https://google.com',
+            }, function (response) {
+            });
+        };
+
+        let heart = $(".icon-heart")
+        let path = heart.find('path')
+        liking = async function (e) {
+            e.preventDefault();
+            await $.ajax({
+                type: 'POST',
+                url: '/articles/liking',
+                data: {
+                    article_id: {{ article.id }},
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: (data, status) => {
+                    const liked = data['liked']
+                    const count_of_likes = data['count_of_likes']
+                    const count_of_likes_tag = $('#count_of_likes')
+                    if (!liked) {
+                        heart.removeClass('is_checked').addClass("icon-heart");
+                        heart.removeClass("icon-heart-fill").removeClass("animate");
+                        $('#like-checkbox').prop('checked', true);
+                        count_of_likes_tag.html(count_of_likes !== 0 ? 'x' + count_of_likes : '')
+                    } else {
+                        heart.removeClass('is_checked').addClass("icon-heart-fill").addClass("animate");
+                        heart.removeClass("icon-heart");
+                        $('#like-checkbox').prop('checked', false);
+                        count_of_likes_tag.html(count_of_likes !== 0 ? 'x' + count_of_likes : '')
+                    }
+                },
+                error: (xhr, status, error) => {
+                    $('body').append(`
+                        <span class="alert alert-danger alert-dismissible show alert-not-network" role="alert">
+                        Bad network
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+                }
+            })
+        }
+        to_login = function () {
+            window.location.href = '/accounts/login'
+            return
+        }
+
+        if ($('#like-checkbox').is(':checked')) {
+            heart.attr('class', 'is_checked icon-heart-fill')
+        }
+
         function replying(id_loop, parent_loop_id = 0) {
             let id = $(`#comment-${id_loop} div.p-0 div.my-1`).attr('id')
             if (Number(parent_loop_id) !== 0) {
@@ -140,12 +200,51 @@
                         <input type="button" onclick="hideReply(${id_loop})" value="Cancel" class="btn-sm btn-outline-dark text-dark ml-3 h-50 px-2 py-1">
                     </p>
                 </form>`
-                )
+                );
             }
         }
 
         function hideReply(id_loop) {
             $(`#reply-comment-${id_loop}`).empty()
+        }
+
+        async function addToFavourite(e) {
+            e.preventDefault();
+            await $.ajax({
+                type: 'POST',
+                url: '/articles/add_to_favourite',
+                data: {
+                    article_id: {{ article.id }},
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: (data, status) => {
+                    if ($('.icon-bookmark-empty').length) {
+                        console.log(123)
+                        $('.icon-bookmark-empty').addClass('icon-bookmark').removeClass('icon-bookmark-empty').addClass("animate");
+                    } else if ($('.icon-bookmark'.length)) {
+                        console.log(12)
+                        $('.icon-bookmark').addClass('icon-bookmark-empty').removeClass('icon-bookmark').removeClass("animate");
+                    }
+                },
+                error: (xhr, status, error) => {
+                    $('body').append(`
+                        <span class="alert alert-danger alert-dismissible show alert-not-network" role="alert">
+                        Bad network
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+                }
+            })
+        }
+
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
         }
     </script>
 {% endblock %}

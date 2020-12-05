@@ -1,21 +1,55 @@
 {% extends 'base_single.html' %}
+{% load social_share %}
 
-{% block header%}{{ article.title |capfirst }}{% endblock %}
+{% block header %}{{ article.title |capfirst }}{% endblock %}
 
 {% block content %}
-  <p>{{ body|safe }}</p>
+    <p>{{ body|safe }}</p>
 {% endblock %}
 {% block bottom %}
-     {% if article.tag %}
+    <div class="d-flex col-10 mx-auto align-items-center">
+
+        <div title="Like" class="mr-auto like-icon">
+            <input type="checkbox" hidden id="like-checkbox" {% if liked %}checked{% endif %}>
+            <i class="icon-heart" style="font-size: 35px; cursor: pointer"
+               onclick="{% if user.is_authenticated %}liking(event){% else %}to_login(){% endif %}"></i>
+            <span id="count_of_likes">
+                {% if count_of_likes %}x{{ count_of_likes }}{% endif %}
+            </span>
+        </div>
+
+        <div class="dropleft">
+            <i class="icon-share mr-2" title="Share" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false"
+               style="font-size: 35px; cursor: pointer"></i>
+            <div class="dropdown-menu">
+                <div class="dropdown-item">{% post_to_facebook request.build_absolute_uri '<i class="icon-facebook"></i>Facebook'|safe %}</div>
+                <div class="dropdown-item">{% post_to_twitter article.title request.build_absolute_uri '<i class="icon-twitter"></i>Twitter'|safe %}</div>
+                <div class="dropdown-item">{% post_to_telegram article.title request.build_absolute_uri '<i class="icon-telegram"></i>Telegram'|safe %}</div>
+                <div class="dropdown-item">{% post_to_whatsapp request.build_absolute_uri '<i class="icon-whatsapp"></i>WhatsApp'|safe %}</div>
+                <div class="dropdown-item">{% send_email "Post" "{{article.title}}" request.build_absolute_uri '<i class="icon-mail"></i>To Email'|safe %}</div>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item logout-link" onclick="copyToClipboard('{{ request.build_absolute_uri }}')">
+                    <a href="javascript:void(0);">
+                        <i class="icon-link"></i>Copy <Link>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="icon-bookmark{% if not favourite %}-empty{% endif %} m-0"
+           style="font-size: 35px; cursor: pointer" title="Favourite"
+           onclick="{% if user.is_authenticated %}addToFavourite(event){% else %}to_login(){% endif %}"></i>
+    </div>
+    {% if article.tag %}
         <div class="entry-bottom">
             <div class="tags-wrap heading">
                 <span class="tags">
-                    {% for tags in article.tag.all|dictsort:"title"%}
-                        <a href="{% url 'articles-by-tag' tags %}" rel="tag">{{ tags }}</a>
+                    {% for tags in article.tag.all|dictsort:"title" %}
+                        <a href="{% url 'articles-by-tag' tags %}" class="px-2 py-1" rel="tag">{{ tags }}</a>
                     {% endfor %}
                 </span>
             </div>
         </div>
     {% endif %}
 {% endblock %}
-

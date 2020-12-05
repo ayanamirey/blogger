@@ -1,0 +1,7 @@
+{% extends 'base_empty.html' %}
+
+{% block content %}
+    {% for article in articles %}
+        {% include '_partials/_article_item.html' %}
+    {% endfor %}
+{% endblock %}

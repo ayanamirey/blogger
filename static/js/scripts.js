@@ -139,27 +139,29 @@ $(".upload-button").click(function () {
     $(".file-upload").click();
 })
 
-$(".avatar-modal").click(function(){
-        var src_img = $(this).attr("src");
-        $("div.profile_avatar_modal img").attr("src", src_img);
+$(".avatar-modal").click(function () {
+    var src_img = $(this).attr("src");
+    $("div.profile_avatar_modal img").attr("src", src_img);
 
 
-        $("div.profile_avatar_modal div.big_img").css({
-            'transform': 'translate(-50%, -50%) scale(1)',
-
-        });
-        $("div.profile_avatar_modal div.img_fixvh").css({
-            'display': 'flex'
-        });
+    $("div.profile_avatar_modal div.big_img").css({
+        'transform': 'translate(-50%, -50%) scale(1)',
 
     });
-    $("div.profile_avatar_modal div.img_fixvh").click(function(){
-
-        $("div.profile_avatar_modal div.img_fixvh").css({
-            'display': 'none'
-        });
-        $("div.profile_avatar_modal div.big_img").css({
-            'transform': 'translate(-50%, -50%) scale(0)',
-
-        });
+    $("div.profile_avatar_modal div.img_fixvh").css({
+        'display': 'flex'
     });
+
+});
+$("div.profile_avatar_modal div.img_fixvh").click(function () {
+
+    $("div.profile_avatar_modal div.img_fixvh").css({
+        'display': 'none'
+    });
+    $("div.profile_avatar_modal div.big_img").css({
+        'transform': 'translate(-50%, -50%) scale(0)',
+
+    });
+});
+
+

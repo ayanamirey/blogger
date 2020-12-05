@@ -1,7 +1,7 @@
 <article class="row mt-2 d-flex">
     <div class="col ml-3 mr-auto">
         <h4 class="entry-title mb-1">
-            <a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a>
+            <a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title|capfirst }}</a>
         </h4>
         <div class="entry-excerpt">
             <p class="mb-2 mt-2">

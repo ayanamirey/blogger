@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
     'markdownx',
     'social_django',
+    'django_social_share',
 ]
 
 MIDDLEWARE = [

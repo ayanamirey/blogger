@@ -1,18 +1,24 @@
 {% load static %}
+
 <article class="row justify-content-between mb-5 mr-0">
-    <div class="col-md-9 ">
+    <div class="col-md-9">
         <div class="align-self-center">
             <div class="capsSubtle mb-2">Editors‘ Pick</div>
-            <h3 class="entry-title mb-3"><a href="{% url 'articles:detail' slug=article.slug %}">{{ article.title }}</a>
+            <h3 class="entry-title mb-3"><a
+                    href="{% url 'articles:detail' slug=article.slug %}">{{ article.title|capfirst }}</a>
             </h3>
             <div class="entry-excerpt">
-                <p>
-                    {{ article.snippet }}
-                </p>
+                {% spaceless %}
+                    <p>
+                        {{ article.snippet }}
+                    </p>
+                {% endspaceless %}
             </div>
             <div class="entry-meta align-items-center author-avatar ml-0">
-                <a class="author-avatar mr-2" href="{% url 'users-profile' article.author %}"><img class="avatar"
-                    src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
+                <a class="author-avatar mr-2" href="{% url 'users-profile' article.author %}">
+                    <img class="avatar" src="{% if article.author.profile.avatar %}
+                        {{ article.author.profile.avatar.url }} {% else %}
+                        {% static 'images/default-avatar.jpg' %} {% endif %}"
                     alt="img">
                 </a>
                 <a href="{% url 'users-profile' article.author %}">
@@ -21,10 +27,17 @@
                 <span>{{ article.date }}</span>
                 <span class="middotDivider"></span>
                 <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
-                <span class="svgIcon svgIcon--star">
-                    <svg class="svgIcon-use" width="15" height="15">
-                        <path d="M7.438 2.324c.034-.099.09-.099.123 0l1.2 3.53a.29.29 0 0 0 .26.19h3.884c.11 0 .127.049.038.111L9.8 8.327a.271.271 0 0 0-.099.291l1.2 3.53c.034.1-.011.131-.098.069l-3.142-2.18a.303.303 0 0 0-.32 0l-3.145 2.182c-.087.06-.132.03-.099-.068l1.2-3.53a.271.271 0 0 0-.098-.292L2.056 6.146c-.087-.06-.071-.112.038-.112h3.884a.29.29 0 0 0 .26-.19l1.2-3.52z"></path>
-                    </svg>
+                <span>
+                    <i class="icon-bookmark"></i>
+                    {{ article.count_of_favourites }}
+                </span>
+                <span>
+                    <i class="icon-heart-fill"></i>
+                    {{ article.count_of_likes }}
+                </span>
+                <span>
+                    <i class="icon-comment"></i>
+                    {{ article.count_of_comments }}
                 </span>
             </div>
         </div>

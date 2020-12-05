@@ -1,8 +1,11 @@
 from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.html import strip_tags
 from markdownx.models import MarkdownxField
 import re
+
+from markdownx.utils import markdownify
 
 from core.models import TimestampedModel
 
@@ -26,18 +29,23 @@ class Article(TimestampedModel):
     status = models.CharField(max_length=25,
                               choices=(('draft', 'DRAFT'), ('inreview', 'INREVIEW'), ('published', 'PUBLISHED')),
                               default='draft')
+    category = models.ForeignKey('Category', on_delete=models.CASCADE, default=None)
 
     def __str__(self):
         return self.title
 
+    @property
+    def formatted_markdown(self):
+        return strip_tags(markdownify(self.body))
+
     def snippet(self):
-        return self.body[:150] + '...'
+        return self.formatted_markdown[:150].replace('\n', ' ') + '...'
 
     def snippet_large(self):
-        return self.body[:350] + '...'
+        return self.formatted_markdown[:350].replace('\n', ' ') + '...'
 
     def time_of_read(self):
-        t1 = len(self.body) / 1500
+        t1 = len(self.formatted_markdown.replace('\n', '')) / 1500
         t2 = len([m.start() for m in re.finditer(r"(?:!\[(.*?)\]\((.*?)\))", self.body)])
         the_sum = t1 + t2
         n = int(the_sum * 10) % 10
@@ -53,8 +61,17 @@ class Article(TimestampedModel):
     def get_comments(self):
         return self.comment_set.filter(parent__isnull=True)
 
+    def count_of_likes(self):
+        return LikeOfArticle.objects.filter(article_id=self.id).count()
 
-class Comment(models.Model):
+    def count_of_comments(self):
+        return Comment.objects.filter(article_id=self.id).count()
+
+    def count_of_favourites(self):
+        return FavouriteArticles.objects.filter(article_id=self.id).count()
+
+
+class Comment(TimestampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(max_length=5000)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
@@ -66,3 +83,35 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.content[0:200]
+
+
+class Category(models.Model):
+    title = models.CharField(max_length=25)
+    description = models.TextField(blank=True, null=True)
+    slug = models.SlugField(unique=True)
+    menu_position = models.PositiveSmallIntegerField(default=0)  # if 0, not position. Status = False
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+
+
+class LikeOfArticle(models.Model):
+    article = models.OneToOneField('Article', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.article.title}-{self.user.username} [{self.id}]'
+
+
+class FavouriteArticles(models.Model):
+    article = models.OneToOneField('Article', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.article.title}-{self.user.username} [{self.id}]'
+
+    def save(self, *args, **kwargs):
+        if FavouriteArticles.objects.filter(article=self.article, user=self.user).count() == 0:
+            super(FavouriteArticles, self).save(*args, **kwargs)
+        else:
+            pass

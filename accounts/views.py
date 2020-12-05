@@ -9,6 +9,7 @@ from django.contrib import messages
 
 
 def signup_view(request):
+    logout(request)
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -36,9 +37,8 @@ def login_view(request):
 
 
 def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        return redirect('articles:list')
+    logout(request)
+    return redirect('articles:list')
 
 
 NUMBER_OF_ARTICLES_PER_PAGE = 10
