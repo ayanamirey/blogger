@@ -3,7 +3,7 @@
 <article class="row justify-content-between mb-5 mr-0">
     <div class="col-md-9">
         <div class="align-self-center">
-            <div class="capsSubtle mb-2">Editors‘ Pick</div>
+            <div class="capsSubtle mb-2">{{ article.category.title }}</div>
             <h3 class="entry-title mb-3"><a
                     href="{% url 'articles:detail' slug=article.slug %}">{{ article.title|capfirst }}</a>
             </h3>
@@ -23,7 +23,7 @@
                 </a>
                 <a href="{% url 'users-profile' article.author %}">
                     {{ article.author }}
-                </a> in <a href="archive.html">OneZero</a><br>
+                </a><br>
                 <span>{{ article.date }}</span>
                 <span class="middotDivider"></span>
                 <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
@@ -38,6 +38,10 @@
                 <span>
                     <i class="icon-comment"></i>
                     {{ article.count_of_comments }}
+                </span>
+                <span>
+                    <i class="icon-eye"></i>
+                    {{ article.count_of_views }}
                 </span>
             </div>
         </div>

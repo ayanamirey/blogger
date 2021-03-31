@@ -15,8 +15,7 @@
                             <img class="avatar"
                                  src="{% if article.author.profile.avatar %} {{ article.author.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
                                  alt="img"></a>
-                        <a href="{% url 'users-profile' article.author %}">{{ article.author }}</a> in <a
-                            href="archive.html">OneZero</a><br>
+                        <a href="{% url 'users-profile' article.author %}">{{ article.author }}</a><br>
                         <span>{{ article.date }}</span>
                         <span class="middotDivider"></span>
                         <span class="readingTime" title="{{ article.time_of_read }} read">{{ article.time_of_read }} read</span>
@@ -73,7 +72,8 @@
                     <span>{% post_to_facebook request.build_absolute_uri '<i class="icon-facebook"></i></a>'|safe %}</span>
                     <span>{% post_to_twitter article.title request.build_absolute_uri '<i class="icon-twitter"></i>'|safe %}</span>
                     <span>{% post_to_telegram article.title request.build_absolute_uri '<i class="icon-telegram"></i>'|safe %}</span>
-                    <a href="javascript:void(0);" class="like-icon"><i class="icon-heart{% if liked %}-fill{% endif %}" onclick="liking(event)"></i></a>
+                    <a href="javascript:void(0);" class="like-icon"><i class="icon-heart{% if liked %}-fill{% endif %}"
+                                                                       onclick="liking(event)"></i></a>
                 </div>
             </div>
             <div class="entry-main-content mb-1">
@@ -122,7 +122,7 @@
 {% block jslibs %}
     <script>
         let heart = $(".icon-heart").length ? $(".icon-heart") : $(".icon-heart-fill")
-        console.log(heart)
+
         liking = async function (e) {
             e.preventDefault();
             await $.ajax({
@@ -194,6 +194,28 @@
             }
         }
 
+        function Count() {
+            {% if token_ex %}
+                setTimeout(() => {
+                    $.ajax({
+                        type: 'GET',
+                        url: '/articles/add_to_view',
+                        data: {
+                            'token_ex': "{{ token_ex }}",
+                            'article_id': "{{ article.id }}"
+                        },
+                        success: (data, status) => {
+
+                        },
+                        error: (xhr, status, error) => {
+                            console.log(status)
+                        }
+                    })
+                }, 45000)
+            {% endif %}
+        }
+        Count()
+
         function hideReply(id_loop) {
             $(`#reply-comment-${id_loop}`).empty()
         }
@@ -235,9 +257,95 @@
             navigator.clipboard.writeText(text)
         }
 
+        async function ReportToComment(event, comment_id) {
+            event.preventDefault();
+            const report_type = $(`#report_comment-${comment_id} input[name="report-to-comment"]:checked`).val();
+            const report_comm = $(`#report_comment-${comment_id} textarea[name="comment_of_report"]`).val();
+
+            await $.ajax({
+                type: 'POST',
+                url: '/articles/report-to-comment',
+                data: {
+                    report_type: report_type,
+                    report_comm: report_comm,
+                    comment_id: comment_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: (data, status) => {
+                    $('body').append(`
+                        <span class="alert alert-success alert-dismissible show alert-not-network" role="alert">
+                        Your report is accepted
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+
+                },
+                error: (xhr, status, error) => {
+                    $('body').append(`
+                        <span class="alert alert-danger alert-dismissible show alert-not-network" role="alert">
+                        Bad network
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+                }
+            })
+        }
+
+        async function ReportToArticle(event, article_id) {
+            event.preventDefault();
+            const report_type = $(`#report_article-${article_id} input[name="report-to-article"]:checked`).val();
+            const report_comm = $(`#report_article-${article_id} textarea[name="comment_of_report"]`).val();
+
+            await $.ajax({
+                type: 'POST',
+                url: '/articles/report-to-article',
+                data: {
+                    report_type: report_type,
+                    report_comm: report_comm,
+                    article_id: article_id,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: (data, status) => {
+                    $('body').append(`
+                        <span class="alert alert-success alert-dismissible show alert-not-network" role="alert">
+                        Your report is accepted
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+
+                },
+                error: (xhr, status, error) => {
+                    $('body').append(`
+                        <span class="alert alert-danger alert-dismissible show alert-not-network" role="alert">
+                        Bad network
+                        <div type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </div>
+                        </span>`);
+                    setTimeout(() => {
+                        $('.alert-not-network').remove();
+                    }, 3000)
+                }
+            })
+        }
 
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         })
+
     </script>
 {% endblock %}

@@ -7,11 +7,13 @@
                     {% csrf_token %}
                     <p class="comment-notes">
                         <span id="email-notes">
-                                {{ form.content.error }}
+                            {% if form_comment.content.errors.items %}
+                                {{ form_comment.content.errors }}
+                            {% endif %}
                         </span>
                     </p>
                     <p class="comment-form-comment">
-                        {{ form.content }}
+                        {{ form_comment.content }}
 
                     </p>
                     <p class="form-submit">

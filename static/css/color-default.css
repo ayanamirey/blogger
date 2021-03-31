@@ -57,10 +57,10 @@ button.owl-next:hover i,
 .submit-btn:hover,
 .menu-toggle-icon.act:hover > span::after,
 .menu-toggle-icon.act:hover > span::before,
-button:hover,
-input[type="button"]:hover,
+/*button:hover,*/
+/*input[type="button"]:hover,*/
 input[type="reset"]:hover,
-input[type="submit"],
+/*input[type="submit"],*/
 .blue {
   background-color: #03a87c !important;
 }

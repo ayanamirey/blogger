@@ -1,0 +1,106 @@
+{% load static %}
+<form method="post" action="set-avatar/" enctype="multipart/form-data" id="set_avatar">
+    {% csrf_token %}
+    <div class="avatar-wrapper my-3 mx-auto">
+        <div class="h-100 d-flex align-items-center">
+            <img class="profile-pic my-auto"
+                 src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} "
+                 alt="img"/>
+        </div>
+        <div class="upload-button">
+            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+        </div>
+        {{ avatar_form.avatar }}
+        {{ avatar_form.x }}
+        {{ avatar_form.y }}
+        {{ avatar_form.width }}
+        {{ avatar_form.height }}
+    </div>
+    <div class="modal fade" id="modalCrop">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img src="" id="image" style="max-width: 80%;">
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group pull-left" role="group">
+                        <button type="button" class="btn btn-default js-zoom-in">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </button>
+                        <button type="button" class="btn btn-default js-zoom-out">
+                            <span class="glyphicon glyphicon-zoom-out"></span>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+                    <button type="button" class="btn btn-primary js-crop-and-upload" data-dismiss="modal">Crop and
+                        upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<form>
+    {% csrf_token %}
+    <div class="form-group">
+        <div class="d-lg-flex">
+            <div class="form-horizontal col-lg-6">
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ user_form.username.label }}: </label>
+                        {{ user_form.username }}
+                    </div>
+                    {{ user_form.username.errors }}
+                </div>
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ user_form.first_name.label }}: </label>
+                        {{ user_form.first_name }}
+                    </div>
+                    {{ user_form.first_name.errors }}
+                </div>
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ user_form.last_name.label }}: </label>
+                        {{ user_form.last_name }}
+                    </div>
+                    {{ user_form.last_name.errors }}
+                </div>
+            </div>
+            <div class="form-horizontal col-lg-6">
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ user_form.email.label }}: </label>
+                        {{ user_form.email }}
+                    </div>
+                    {{ user_form.email.errors }}
+                </div>
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ profile_form.location.label }}: </label>
+                        {{ profile_form.location }}
+                    </div>
+                    {{ profile_form.location.errors }}
+                </div>
+                <div class="form-group">
+                    <div class="d-flex justify-content-between mx-2">
+                        <label class="col-form-label">{{ profile_form.birth_date.label }}: </label>
+                        {{ profile_form.birth_date }}
+                    </div>
+                    {{ profile_form.birth_date.errors }}
+                </div>
+            </div>
+        </div>
+
+        <div class="">
+            <label class="col-form-label">{{ profile_form.bio.label }}: </label>
+            {{ profile_form.bio }}
+            {{ profile_form.bio.errors }}
+        </div>
+
+    </div>
+    <input type="hidden" name="_profile_edit" value="99">
+    <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
+</form>

@@ -20,7 +20,7 @@ class Profile(models.Model):
         return reverse('user-details', args=[str(self.user.username)])
 
     def snippet(self):
-        return self.bio[:150] + '...'
+        return self.bio[:25] + '...'
 
 
 @receiver(post_save, sender=User)
@@ -32,3 +32,22 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
+class SocialNetwork(models.Model):
+    title = models.CharField(max_length=63)
+    class_name = models.CharField(max_length=31)
+    link_to_sn = models.CharField(max_length=63)
+    status = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.title
+
+
+class ConnectToSocialAccount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    social_network = models.ForeignKey(SocialNetwork, on_delete=models.CASCADE)
+    username = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.username} [{self.social_network}]'

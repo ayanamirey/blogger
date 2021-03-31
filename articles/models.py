@@ -30,6 +30,7 @@ class Article(TimestampedModel):
                               choices=(('draft', 'DRAFT'), ('inreview', 'INREVIEW'), ('published', 'PUBLISHED')),
                               default='draft')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, default=None)
+    views = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -65,10 +66,13 @@ class Article(TimestampedModel):
         return LikeOfArticle.objects.filter(article_id=self.id).count()
 
     def count_of_comments(self):
-        return Comment.objects.filter(article_id=self.id).count()
+        return Comment.objects.filter(article_id=self.id).exclude(status='deleted').count()
 
     def count_of_favourites(self):
         return FavouriteArticles.objects.filter(article_id=self.id).count()
+
+    def count_of_views(self):
+        return self.views
 
 
 class Comment(TimestampedModel):
@@ -82,7 +86,7 @@ class Comment(TimestampedModel):
                               default='active')
 
     def __str__(self):
-        return self.content[0:200]
+        return self.content[0:200] + '[{}]'.format(self.id)
 
 
 class Category(models.Model):
@@ -91,6 +95,16 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     menu_position = models.PositiveSmallIntegerField(default=0)  # if 0, not position. Status = False
     image = models.ImageField(upload_to='categories/', blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.title_uz} [{self.id}]'
+
+    @staticmethod
+    def get_active_categories():
+        return Category.objects.filter(article__isnull=False)
+
+    def get_count_articles(self):
+        return Article.objects.filter(category_id=self.id, status='published').count()
 
 
 class LikeOfArticle(models.Model):
@@ -115,3 +129,27 @@ class FavouriteArticles(models.Model):
             super(FavouriteArticles, self).save(*args, **kwargs)
         else:
             pass
+
+
+class ReportToArticle(models.Model):
+    class TypeOfReport(models.IntegerChoices):
+        report_1 = 1
+        report_2 = 2
+        report_3 = 3
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    type_of_report = models.IntegerField(choices=TypeOfReport.choices, default=1, blank=True, null=True)
+    extra_comment = models.CharField(max_length=255)
+
+
+class ReportToComment(models.Model):
+    class TypeOfReport(models.Choices):
+        This_is_spam = 1
+        This_reporting = 2
+        This_18_plus = 3
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    type_of_report = models.IntegerField(choices=TypeOfReport.choices, default=1, blank=True, null=True)
+    extra_comment = models.CharField(max_length=255, blank=True, null=True)

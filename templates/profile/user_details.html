@@ -1,0 +1,11 @@
+{% extends 'base_sidebar.html' %}
+
+{% block header %}Profile{% endblock %}
+{% block content %}
+    {% if profile.user %}
+        {% include 'profile/_profile_data.html' %}
+    {% else %}
+        <p>No user with given username!</p>
+    {% endif %}
+    <br>
+{% endblock %}

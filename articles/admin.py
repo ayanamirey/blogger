@@ -1,11 +1,11 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
+from modeltranslation.admin import TranslationAdmin
 
-from .models import Article, Tag, Comment, Category, LikeOfArticle, FavouriteArticles
+from .models import Article, Tag, Comment, Category, LikeOfArticle, FavouriteArticles, ReportToComment, ReportToArticle
 
 # admin.site.register(LikeOfArticle)
 admin.site.register(Tag)
-admin.site.register(Category)
 
 
 @admin.register(Article)
@@ -30,3 +30,17 @@ class LikesAdmin(admin.ModelAdmin):
 class FavouriteArticlesAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'id')
 
+
+@admin.register(ReportToComment)
+class ReportToCommentAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id')
+
+
+@admin.register(ReportToArticle)
+class ReportToArticleAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'id')
+
+
+@admin.register(Category)
+class ReportToArticleAdmin(TranslationAdmin):
+    list_display = ('__str__', 'id', 'title_uz', 'menu_position')

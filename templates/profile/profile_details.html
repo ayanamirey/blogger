@@ -1,51 +1,50 @@
-{% extends 'base_sidebar.html' %}
-{% load static %}
+{% extends 'base_full_width.html' %}
 
 {% block header %}Profile{% endblock %}
 {% block content %}
     {% if profile.user %}
-        <div class="avatar-wrapper">
-            <img class="profile-pic {% if profile.avatar %} avatar-modal {% endif %} "
-                 src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
-                 alt="img"/>
-        </div>
-        <div class="profile_avatar_modal">
-            <div class="big_img">
-                <img class="view_img_full"
-                     src="{% if profile.avatar %} {{ profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
-                     alt="">
+        <div class="d-flex">
+            <div class="nav flex-column nav-pills col-2 border-right border-secondary" id="v-pills-tab" role="tablist"
+                 aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                   role="tab"
+                   aria-controls="v-pills-profile" aria-selected="true">Profile</a>
+                <a class="nav-link" id="v-pills-profile-edit-tab" data-toggle="pill" href="#v-pills-profile-edit"
+                   role="tab"
+                   aria-controls="v-pills-profile-edit" aria-selected="true">Edit Profile</a>
+                <a class="nav-link" id="v-pills-security-tab" data-toggle="pill" href="#v-pills-security" role="tab"
+                   aria-controls="v-pills-security" aria-selected="false">Security</a>
+                <a class="nav-link" id="v-pills-social-profiles-tab" data-toggle="pill" href="#v-pills-social-profiles"
+                   role="tab"
+                   aria-controls="v-pills-social-profiles" aria-selected="false">Social profiles</a>
+                <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+                   aria-controls="v-pills-settings" aria-selected="false">Settings</a>
             </div>
-            <div class="img_fixvh">
-                <span class="exit_img"><i class="fa fa-close"></i></span>
+            <div class="tab-content mx-auto col-8" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel"
+                     aria-labelledby="v-pills-profile-tab">
+                    {% include 'profile/_profile_data.html' %}
+                </div>
+                <div class="tab-pane fade show" id="v-pills-profile-edit" role="tabpanel"
+                     aria-labelledby="v-pills-profile-edit-tab">
+                    {% include 'profile/_edit_profile_data.html' %}
+                </div>
+                <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">
+                    <h4>Security</h4>
+                    {% include 'profile/_edit_profile_security.html' %}
+                    <h4>Connect account to your social accounts</h4>
+                    <div class="d-flex justify-content-around mt-3">{% include '_partials/settings.html' %}</div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-social-profiles" role="tabpanel"
+                     aria-labelledby="v-pills-social-profiles-tab">
+                    {% include 'profile/_socail_networks_form.html' %}
+                </div>
+                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                    settings
+                </div>
             </div>
         </div>
 
-        {% if profile.user.first_name %}
-            <p>Name: {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
-        {% endif %}
-        {% if profile.user.username %}
-            <p>Username: {{ profile.user.username }} </p>
-        {% endif %}
-        {% if profile.user.email %}
-            <p>Email: {{ profile.user.email }}</p>
-        {% endif %}
-        {% if profile.user.date_joined %}
-            <p>Date joined: {{ profile.user.date_joined }} </p>
-        {% endif %}
-        {% if profile.bio %}
-            <p>Bio: {{ profile.bio }}</p>
-        {% endif %}
-        {% if profile.location %}
-            <p>Location: {{ profile.location }}</p>
-        {% endif %}
-        {% if profile.birth_date %}
-            <p>Birth date: {{ profile.birth_date }}</p>
-        {% endif %}
-        {% if user.username|lower == profile.user.username|lower %}
-            <a href="{% url 'profiles:profile-update' %}">
-                <button class="btn btn-outline-success btn-default" type="submit">Edit profile</button>
-            </a>
-        {% endif %}
     {% else %}
         <p>No user with given username!</p>
     {% endif %}

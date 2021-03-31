@@ -1,78 +1,49 @@
-{% extends 'base_sidebar.html' %}
+{% extends 'base_full_width.html' %}
 {% load static %}
 
-{% block header %}Edit profile{% endblock %}
+{% block header %}
+    Edit profile
+    {#    <ul class="nav nav-tabs mb-n2">#}
+    {#        <li class="nav-item active">#}
+    {#            <a class="nav-link active" href="#">Edit Profile</a>#}
+    {#        </li>#}
+    {#        <li class="nav-item">#}
+    {#            <a class="nav-link" href="#">Security</a>#}
+    {#        </li>#}
+    {#        <li class="nav-item">#}
+    {#            <a class="nav-link" href="#">My Articles</a>#}
+    {#        </li>#}
+    {#    </ul>#}
+{% endblock %}
 
 {% block content %}
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-
-            <div class="avatar-wrapper">
-                <div class="h-100 d-flex align-items-center">
-                    <img class="profile-pic my-auto"
-                         src="{% if avatar %} {{ avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %} "
-                         alt="img"/>
-                </div>
-                <div class="upload-button">
-                    <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                </div>
-                {{ profile_form.avatar }}
+    <div class="d-flex">
+        <div class="nav flex-column nav-pills col-2 border-right border-secondary" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+               aria-controls="v-pills-home" aria-selected="true">Edit Profile</a>
+            <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+               aria-controls="v-pills-profile" aria-selected="false">Security</a>
+            <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+               aria-controls="v-pills-messages" aria-selected="false">Social profiles</a>
+            <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
+               aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+        </div>
+        <div class="tab-content mx-auto col-8" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                {% include 'profile/_edit_profile_data.html' %}
             </div>
-
-            <div class="col-auto pl-0">
-
-                <label class="col-auto pl-0 col-form-label">{{ user_form.first_name.label }}: </label>
-                {{ user_form.first_name }}
-                {{ user_form.first_name.errors }}
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <h4>Security</h4>
+                {% include 'profile/_edit_profile_security.html' %}
+                <h4>Connect account to your social accounts</h4>
+                <div class="d-flex justify-content-around mt-3">{% include '_partials/settings.html' %}</div>
             </div>
-            <div class="col-auto pl-0">
-                <label class="col-auto pl-0 col-form-label">{{ user_form.last_name.label }}: </label>
-                {{ user_form.last_name }}
-                {{ user_form.last_name.errors }}
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                message
             </div>
-            <div class="col-auto pl-0">
-                <label class="col-auto pl-0 col-form-label">{{ user_form.email.label }}: </label>
-                {{ user_form.email }}
-                {{ user_form.email.errors }}
-            </div>
-            <div class="col-auto pl-0">
-                <label class="col-auto pl-0 col-form-label">{{ profile_form.bio.label }}: </label>
-                {{ profile_form.bio }}
-                {{ profile_form.bio.errors }}
-            </div>
-            <div class="col-auto pl-0">
-                <label class="col-auto pl-0 col-form-label">{{ profile_form.location.label }}: </label>
-                {{ profile_form.location }}
-                {{ profile_form.location.errors }}
-            </div>
-            <div class="col-auto pl-0">
-                <label class="col-auto pl-0 col-form-label">{{ profile_form.birth_date.label }}: </label>
-                {{ profile_form.birth_date }}
-                {{ profile_form.birth_date.errors }}
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                settings
             </div>
         </div>
-        <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
-    </form>
-
-    <br>
-    <hr>
-
-    <h2>Security</h2>
-    <div class="d-flex align-items-center">
-            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consectetur debitis, dignissimos
-                doloremque error esse ex facere iste labore laudantium neque non placeat, quia, quod sint sit temporibus
-                tenetur veniam!
-            </span>
-        <a href="{% if can_disconnect %}
-                    {% url 'accounts:password_change' %}{% else %} {% url 'accounts:password' %}
-                 {% endif %}"
-           class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change
-            Password</a>
     </div>
-    <hr>
-
-    <h2>Social</h2>
-    <div class="d-flex justify-content-around mt-3">{% include '_partials/settings.html' %}</div>
-
 {% endblock %}

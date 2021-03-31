@@ -3,10 +3,36 @@
 {% block header %}Bas bet{% endblock %}
 
 {% block content %}
-    <div class="articles">
+    <ul class="nav nav-tabs list-style-none my-2">
+        <li class="ml-2 nav-item">
+            <a class="nav-link {% if by_date %}active{% endif %}"
+               href="{% url 'articles:list' %}">By date</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if by_following %}active{% endif %}"
+               href="{% url 'articles:list-by-following' %}">By following</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if by_top %}active{% endif %}"
+               href="{% url 'articles:list-by-top' %}">Top of week</a>
+        </li>
+    </ul>
+
+    <div class="articles items">
         {% for article in articles %}
             {% include '_partials/_article_item.html' %}
         {% endfor %}
+
+        {% if not articles and by_following %}
+
+            <p class="m-3 h5">
+                {% if user.is_authenticated %}
+                    You are not subscribed to any category or author
+                {% else %}
+                    You are not logged in
+                {% endif %}
+            </p>
+        {% endif %}
     </div>
     {% if articles.has_other_pages %}
         {% include '_partials/pagination.html' %}

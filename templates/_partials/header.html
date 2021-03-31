@@ -1,7 +1,22 @@
-{% load static %}
+{% load static i18n %}
 <div class="container">
     <div class="align-items-center w-100">
         <h1 class="logo float-left navbar-brand"><a href="/" class="logo">Merinda</a></h1>
+        <form action="{% url 'set_language' %}" method="post" class="form-group float-left" id="form-language">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <select name="language" class="custom-select ml-5 mr-n5 mt-n1 border-0" onchange="$('#form-language').submit()">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                            selected{% endif %}>
+                        {{ language.name_local|capfirst }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
         <div class="header-right float-right w-50">
             <div class="d-flex float-right text-right align-items-center">
                 <form action="{% url 'search' %}" method="get" class="search-form d-flex align-items-center">
@@ -15,24 +30,40 @@
                         <li><a href="{% url 'articles:create' %}" class="btn pt-1 pb-1">New Article</a></li>
                         <li>
                             <div class="author-avatar dropdown">
-                                <img title="@{{ user.username }}" class="dropdown-toggle cursor-pointer" data-toggle="dropdown"
+                                <img title="@{{ user.username }}" class="dropdown-toggle cursor-pointer"
+                                     data-toggle="dropdown"
                                      aria-haspopup="true" aria-expanded="false"
                                      src="{% if user.profile.avatar %} {{ user.profile.avatar.url }} {% else %} {% static 'images/default-avatar.jpg' %} {% endif %}"
                                      alt="img">
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="{% url 'profiles:profile-details' %}"><i class="icon-user"></i>Profile</a>
-                                    <a class="dropdown-item" href="{% url 'profiles:draft-articles' %}"><i class="icon-pencil"></i>My articles</a>
-                                    <a class="dropdown-item" href="{% url 'articles:favourite-articles' %}"><i class="icon-bookmark"></i>Saved articles</a>
+                                    <a class="dropdown-item" href="{% url 'profiles:profile-details' %}"><i
+                                            class="icon-user"></i>Profile</a>
+                                    <a class="dropdown-item" href="{% url 'profiles:draft-articles' %}"><i
+                                            class="icon-pencil"></i>My articles</a>
+                                    <a class="dropdown-item" href="{% url 'articles:favourite-articles' %}"><i
+                                            class="icon-bookmark"></i>Saved articles</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item logout-link" href="{% url 'accounts:logout' %}"><i class="icon-logout"></i>Log out</a>
+                                    <a class="dropdown-item logout-link" href="{% url 'accounts:logout' %}"><i
+                                            class="icon-logout"></i>Log out</a>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 {% else %}
-                    <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                        <li><a class="btn-link btn py-xl-1" href="{% url 'accounts:login' %}">Login</a></li>
-                        <li><a class="btn-link btn py-xl-1 " href="{% url 'accounts:signup' %}">Signup</a></li>
+                    <ul class="top-menu heading nav w-100 d-lg-flex d-flex align-items-center">
+                        <li>
+                            <form action="{% url 'accounts:login' %}">
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                <button type="submit" class="btn-green px-sm-1">Login</button>
+                            </form>
+                        </li>
+
+                        <li>
+                            <form action="{% url 'accounts:signup' %}">
+                                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                <button type="submit" class="btn-green ml-2 px-sm-1">Signup</button>
+                            </form>
+                        </li>
                     </ul>
                 {% endif %}
             </div>

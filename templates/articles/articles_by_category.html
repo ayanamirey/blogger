@@ -1,0 +1,16 @@
+{% extends 'base_sidebar.html' %}
+
+{% block header %}
+    Articles in category "{{ category.title|capfirst }}"
+{% endblock %}
+
+{% block content %}
+    <div class="articles">
+        {% for article in articles %}
+            {% include '_partials/_article_item.html' %}
+        {% endfor %}
+        {% if articles.has_other_pages %}
+            {% include '_partials/pagination.html' %}
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<hr>
+<div class="d-flex align-items-center">
+    {#            <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur consectetur debitis, dignissimos#}
+    {#                doloremque error esse ex facere iste labore laudantium neque non placeat, quia, quod sint sit temporibus#}
+    {#                tenetur veniam!#}
+    {#            </span>#}
+    {#    <a href="{% if can_disconnect %}#}
+    {#                    {% url 'accounts:password_change' %}{% else %} {% url 'accounts:password' %}#}
+    {#                 {% endif %}"#}
+    {#       class="btn btn-primary btn-sm col-2 pl-0 pr-0 h-50">Change#}
+    {#        Password</a>#}
+    <div class='mx-auto'>
+        <h3>Change your Password</h3>
+        <form method='post' action='' class="mt-3">
+            {% csrf_token %}
+            <input type="hidden" name="_change_password" value="31">
+            {% for items_form in password_change_form %}
+                <div class="d-flex mx-3">
+                    <label>{{ items_form.label }}:</label>
+                    <div class="ml-auto">
+                        {{ items_form }}
+                    </div>
+                </div>
+                {{ items_form.default_error_messages }}
+                {{ items_form.errors }}
+            {% endfor %}
+            <span style='margin-bottom: 12px;'></span>
+            <button type="submit" class='mt-3 btn btn-block btn-success'>Save</button>
+        </form>
+    </div>
+</div>
+<hr>

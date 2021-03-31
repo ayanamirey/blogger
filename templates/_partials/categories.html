@@ -1,13 +1,17 @@
+{% load categories %}
 <nav id="main-menu" class="stick d-lg-block d-none">
     <div class="container">
         <div class="menu-primary">
             <ul>
-                <li class="current-menu-item"><a href="index.html">Home</a></li>
-                <li class="menu-item-has-children"><a href="categories.html">Categories</a>
+                <li class="current-menu-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="menu-item-has-children"><a href="{% url 'articles:category-list'%}">Categories</a>
                     <ul class="sub-menu">
-                        <li><a href="categories.html">Politics</a></li>
-                        <li><a href="categories.html">Health</a></li>
-                        <li><a href="categories.html">Design</a></li>
+                        {% get_active_categories as categories %}
+                        {% for category in categories %}
+                            <li>
+                                <a href="{% url 'articles:articles-by-category' category.slug %}">{{ category.title|capfirst }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </li>
                 <li><a href="typography.html">Typography</a></li>

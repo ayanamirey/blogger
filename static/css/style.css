@@ -563,9 +563,9 @@ div.profile_avatar_modal div.img_fixvh span:hover {
 
 .avatar-wrapper {
   position: relative;
-  height: 200px;
-  width: 200px;
-  margin: 50px auto;
+  height: 187px;
+  width: 189px;
+  /*margin: 50px auto;*/
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 1px 1px 15px -5px black;
@@ -679,10 +679,6 @@ div.profile_avatar_modal div.img_fixvh span:hover {
   position: absolute;
   top: 50%;
   left: 45%;
-}
-
-.svgIcon {
-
 }
 
 .cursor-pointer {
@@ -1594,21 +1590,21 @@ input:focus, textarea:focus, button:focus, select:focus {
   transition: 0.4s;
 }
 
-input {
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 0px;
-  height: 40px;
-  font-size: 16px;
-  padding: 7px 15px;
-  background: white;
-  border: 1px solid #e1e1e1;
-  -webkit-transition: 0.4s;
-  -o-transition: 0.4s;
-  transition: 0.4s;
-  width: 100%;
-  color: rgba(0, 0, 0, 0.54);
-}
+/*input {*/
+/*  -webkit-appearance: none;*/
+/*  appearance: none;*/
+/*  border-radius: 0px;*/
+/*  height: 40px;*/
+/*  font-size: 16px;*/
+/*  padding: 7px 15px;*/
+/*  background: white;*/
+/*  border: 1px solid #e1e1e1;*/
+/*  -webkit-transition: 0.4s;*/
+/*  -o-transition: 0.4s;*/
+/*  transition: 0.4s;*/
+/*  width: 100%;*/
+/*  color: rgba(0, 0, 0, 0.54);*/
+/*}*/
 
 textarea, button, select {
   -webkit-appearance: none;
@@ -1632,6 +1628,27 @@ button, html input[type="button"], input[type="reset"], input[type="submit"] {
   border-radius: 3px;
   cursor: pointer;
   width: unset;
+}
+
+.item-radio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/*.item-radio h6{*/
+/*    margin-bottom: 0px;*/
+/*    line-height: 22px;*/
+/*    margin-left: 10px;*/
+
+/*  }*/
+
+.item-radio input[type='radio'] {
+  width: 15px;
+  line-height: 15px;
+  margin-top: -3px;
+
+  height: 15px;
 }
 
 /*button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover {*/
@@ -1758,4 +1775,9 @@ pre code {
 
 .entry-wraper.full-width {
   max-width: none;
+}
+
+.nav-link.active{
+  color: whitesmoke !important;
+  background: #6c757d !important;
 }

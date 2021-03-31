@@ -284,7 +284,7 @@ button::-moz-focus-inner,
 
 input[type="radio"],
 input[type="checkbox"] {
-  box-sizing: border-box;
+  /*box-sizing: border-box;*/
   padding: 0;
 }
 

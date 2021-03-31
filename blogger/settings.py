@@ -17,11 +17,13 @@ SECRET_KEY = env('SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['.ngrok.io', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uz'
 
 TIME_ZONE = 'Asia/Tashkent'
 
@@ -138,6 +141,28 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+gettext = lambda s: s
+LANGUAGES = [
+    ('uz', gettext('Uzbek')),
+    ('kr', gettext('Karakalpak')),
+    ('ru', gettext('Russian')),
+]
+
+EXTRA_LANG_INFO = {
+    'kr': {
+        'bidi': False,
+        'code': 'kr',
+        'name': 'Karakalpak',
+        'name_local': 'Qaraqalpaq tili',
+    },
+}
+
+import django.conf.locale
+from django.conf import global_settings
+LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
+django.conf.locale.LANG_INFO = LANG_INFO
+global_settings.LANGUAGES = global_settings.LANGUAGES + [("kr", 'Qaraqalpaq tili')]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
@@ -148,6 +173,11 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
 
 MARKDOWNX_MARKDOWN_EXTENSIONS = [
     'markdown.extensions.extra'

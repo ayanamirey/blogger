@@ -1,0 +1,32 @@
+{% load categories %}
+<article class="row mt-2 d-flex">
+    <div class="col ml-3 mr-auto">
+        <h4 class="entry-title mb-1">
+            <a href="{% url 'articles:articles-by-category' category.slug %}">{{ category.title|capfirst }}</a>
+        </h4>
+        <div class="entry-excerpt">
+            <p class="mb-2 mt-2">
+                {{ category.description }}
+            </p>
+        </div>
+        <div class="entry-meta align-items-center">
+            {{ category.get_count_articles }}
+            <span class="middotDivider">articles</span>
+        </div>
+    </div>
+    <div class="ml-auto mt-auto mb-auto mr-3 d-flex flex-column">
+        <form action="{% url 'articles:follow-to-categories' %}" method="post" class="m-1">
+            {% csrf_token %}
+            <input type="hidden" name="category_id" value="{{ category.id }}">
+            {% is_followed category.id user.id as is_follow %}
+            {% if not is_follow %}
+                <input type="hidden" name="what" value="follow">
+                <button type="submit" class="btn btn-primary w-100 m-auto">Follow</button>
+            {% else %}
+                <input type="hidden" name="what" value="unfollow">
+                <button type="submit" class="btn btn-danger w-100 m-auto">UnFollow</button>
+            {% endif %}
+        </form>
+    </div>
+</article>
+<hr>

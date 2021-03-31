@@ -10,11 +10,18 @@
     <div class="d-flex col-10 mx-auto align-items-center">
 
         <div class="mr-auto like-icon">
-            <i class="icon-heart{% if liked %}-fill{% endif %}" style="font-size: 35px; cursor: pointer" data-original-title="Like" title
-               data-toggle="tooltip" data-placement="top"
-               onclick="{% if user.is_authenticated %}liking(event){% else %}to_login(){% endif %}"></i>
+            <span {% if user.is_authenticated %}onclick="liking(event)"{% else %} data-toggle="modal"
+                  data-target="#modalLRForm"{% endif %}>
+                <i class="icon-heart{% if liked %}-fill{% endif %}" style="font-size: 35px; cursor: pointer"
+                   data-original-title="Like" title data-toggle="tooltip" data-placement="top"></i>
+            </span>
             <span id="count_of_likes">
                 {% if count_of_likes %}x{{ count_of_likes }}{% endif %}
+            </span>
+            <span {% if user.is_authenticated %}data-target="#report_article-{{ article.id }}"{% else %}data-target="#modalLRForm"{% endif %}
+                  data-toggle="modal">
+                <i class="icon-attention ml-1" style="font-size: 35px; cursor: pointer"
+                data-original-title="Report" title data-toggle="tooltip" data-placement="top"></i>
             </span>
         </div>
 
@@ -23,34 +30,39 @@
                aria-haspopup="true" aria-expanded="false"
                style="font-size: 35px; cursor: pointer"></i>
             <div class="dropdown-menu">
-                <div class="dropdown-item">{% post_to_facebook request.build_absolute_uri '<i class="icon-facebook"></i>Facebook'|safe %}</div>
-                <div class="dropdown-item">{% post_to_twitter article.title request.build_absolute_uri '<i class="icon-twitter"></i>Twitter'|safe %}</div>
-                <div class="dropdown-item">{% post_to_telegram article.title request.build_absolute_uri '<i class="icon-telegram"></i>Telegram'|safe %}</div>
-                <div class="dropdown-item">{% post_to_whatsapp request.build_absolute_uri '<i class="icon-whatsapp"></i>WhatsApp'|safe %}</div>
-                <div class="dropdown-item">{% send_email "Post" "{{article.title}}" request.build_absolute_uri '<i class="icon-mail"></i>To Email'|safe %}</div>
+                <div class="dropdown-item">{% post_to_facebook request.build_absolute_uri '<i class="icon-facebook text-primary"></i>Facebook'|safe %}</div>
+                <div class="dropdown-item">{% post_to_twitter article.title request.build_absolute_uri '<i class="icon-twitter text-primary"></i>Twitter'|safe %}</div>
+                <div class="dropdown-item">{% post_to_telegram article.title request.build_absolute_uri '<i class="icon-telegram text-info"></i>Telegram'|safe %}</div>
+                <div class="dropdown-item">{% post_to_whatsapp request.build_absolute_uri '<i class="icon-whatsapp text-success"></i>WhatsApp'|safe %}</div>
+                <div class="dropdown-item">{% send_email "Post" "{{article.title}}" request.build_absolute_uri '<i class="icon-mail text-danger"></i>To Email'|safe %}</div>
                 <div class="dropdown-divider"></div>
-                <div class="dropdown-item logout-link" onclick="copyToClipboard('{{ request.build_absolute_uri }}')">
+                <div class="dropdown-item" onclick="copyToClipboard('{{ request.build_absolute_uri }}')">
                     <a href="javascript:void(0);">
-                        <i class="icon-link"></i>Copy Link>
+                        <i class="icon-link text-muted"></i>Copy Link
                     </a>
                 </div>
             </div>
         </div>
+        <span {% if user.is_authenticated %}onclick="addToFavourite(event)"{% else %}data-toggle="modal"
+              data-target="#modalLRForm"{% endif %}>
 
         <i class="icon-bookmark{% if not favourite %}-empty{% endif %} m-0"
            style="font-size: 35px; cursor: pointer" data-original-title="Favourite" title data-toggle="tooltip"
-           data-placement="top"
-           onclick="{% if user.is_authenticated %}addToFavourite(event){% else %}to_login(){% endif %}"></i>
+           data-placement="top"></i>
+            </span>
     </div>
     {% if article.tag %}
         <div class="entry-bottom">
             <div class="tags-wrap heading">
                 <span class="tags">
                     {% for tags in article.tag.all|dictsort:"title" %}
-                        <a href="{% url 'articles-by-tag' tags %}" class="px-2 py-1" rel="tag">{{ tags }}</a>
+                        <a href="{% url 'articles-by-tag' tags %}" class="px-2 py-1" rel="tag"><i
+                                class="icon-tag-1"></i>{{ tags }}</a>
                     {% endfor %}
                 </span>
             </div>
         </div>
     {% endif %}
+    {% include '_partials/_modal_signin_signup.html' with form_login=form_login form_signup=form_signup %}
+    {% include '_partials/_modal_report_article.html' with id_modal=article.id reports=article_reports %}
 {% endblock %}

@@ -127,7 +127,8 @@ let readURL = function (input) {
     if (input.files && input.files[0]) {
         let reader = new FileReader();
         reader.onload = function (e) {
-            $('.profile-pic').attr('src', e.target.result);
+            $('#image').attr('src', e.target.result);
+            $("#modalCrop").modal("show");
         }
         reader.readAsDataURL(input.files[0]);
     }
