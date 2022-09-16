@@ -15,114 +15,111 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
-"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%"
-"100>=11 && n%100<=14)? 2 : 3);\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: .\blogger\settings.py:157
 msgid "English"
-msgstr "Английский"
+msgstr "Ingliz"
 
 #: .\blogger\settings.py:158
 msgid "Karakalpak"
-msgstr "Каракалпакский"
+msgstr ""
 
 #: .\blogger\settings.py:159
 msgid "Uzbek"
-msgstr "Узбекский"
+msgstr "O'zbek"
 
 #: .\blogger\settings.py:160
 msgid "Russian"
-msgstr "Русский"
+msgstr "Rus"
 
 #: .\templates\_partials\categories.html:8
 msgid "Home"
-msgstr "Главная"
+msgstr "Bosh sahifa"
 
 #: .\templates\_partials\categories.html:10
 msgid "Categories"
-msgstr "Категории"
+msgstr "Kategoriyalar"
 
 #: .\templates\_partials\categories.html:20
 msgid "Typography"
-msgstr "Типография"
+msgstr "Tipografiya"
 
 #: .\templates\_partials\categories.html:21
 msgid "Politics"
-msgstr "Политика"
+msgstr "Siyosat"
 
 #: .\templates\_partials\categories.html:22
 msgid "Health"
-msgstr "Здоровье"
+msgstr "Salomatlik"
 
 #: .\templates\_partials\categories.html:23
 msgid "Design"
-msgstr "Дизайн"
+msgstr "Dizayn"
 
 #: .\templates\_partials\categories.html:24
 msgid "Startups"
-msgstr "Стартапы"
+msgstr "Startaplar"
 
 #: .\templates\_partials\categories.html:25
 msgid "Culture"
-msgstr "Культура"
+msgstr "Madaniyat"
 
 #: .\templates\_partials\categories.html:26
 msgid "Contact"
-msgstr "Контакт"
+msgstr "Kontakt"
 
 #: .\templates\_partials\categories.html:27
 msgid "More..."
-msgstr "Больше..."
+msgstr "Ko'proq..."
 
 #: .\templates\_partials\categories.html:29
-#, fuzzy
-#| msgctxt "abbrev. month"
-#| msgid "March"
 msgid "Search"
-msgstr "Поиск"
+msgstr "Qidirish"
 
 #: .\templates\_partials\categories.html:30
 msgid "Author"
-msgstr "Автор"
+msgstr "Muallif"
 
 #: .\templates\_partials\header.html:30
 msgid "New Article"
-msgstr "Новая статья"
+msgstr "Yangi maqola"
 
 #: .\templates\articles\article_list.html:10
 msgid "By date"
-msgstr "По дате"
+msgstr "Sana bo'yicha"
 
 #: .\templates\articles\article_list.html:14
 msgid "By following"
-msgstr "Отслеживаемые"
+msgstr "Kuzatish orqali"
 
 #: .\templates\articles\article_list.html:22
 msgid "Most popular"
-msgstr "Самое популярное"
+msgstr ""
 
 #: .\templates\articles\article_list.html:26
 msgid "Most liked"
-msgstr "Самые залайканные"
+msgstr ""
 
 #: .\templates\articles\article_list.html:52
 msgid "Select time range"
-msgstr "Выбрать временной промежуток"
+msgstr ""
 
 #: .\templates\articles\article_list.html:58
 msgid "from:"
-msgstr "с:"
+msgstr ""
 
 #: .\templates\articles\article_list.html:61
 msgid "to:"
-msgstr "до:"
+msgstr ""
 
 #: .\templates\articles\article_list.html:64
 msgid "Сonfirm"
-msgstr "Подтвердить"
+msgstr ""
 
 #: .\templates\base.html:108
 msgid "Top"
-msgstr "Вверх"
+msgstr " Yuqoriga"
+
+#~ msgid "Top of week"
+#~ msgstr "Haftaning boshi"

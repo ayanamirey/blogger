@@ -6,7 +6,7 @@
         <form class="site-form pt-3" action="{% url 'articles:create' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form }}
-            <input type="submit" name="" value="Create">
+            <input class="btn btn-primary" type="submit" name="" value="Create">
         </form>
         {{ form.media }}
     </div>

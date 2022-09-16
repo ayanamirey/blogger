@@ -15,7 +15,7 @@ from social_django.models import UserSocialAuth
 import json
 
 from articles.models import Article
-from profiles.forms import UserForm, ProfileForm, AvatarForm
+from profiles.forms import UserForm, ProfileForm, AvatarForm, SocialNetworkForm
 from profiles.models import Profile, SocialNetwork, ConnectToSocialAccount
 
 
@@ -34,6 +34,7 @@ def profile_detail(request):
     except Profile.DoesNotExist:
         profile = None
     articles = Article.objects.filter(author=username, status='published')
+
     if request.method == 'POST':
         if '_profile_edit' in request.POST:
             user_form = UserForm(request.POST, instance=request.user)
@@ -64,17 +65,20 @@ def profile_detail(request):
                                                                     defaults={
                                                                         'username': i[1],
                                                                     })
+
             return redirect('/profile', username=username)
 
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         password_change_form = PasswordChangeForm(request.user)
         avatar_form = AvatarForm(request.profile.user)
+        social_form = SocialNetworkForm()
     else:
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
         password_change_form = PasswordChangeForm(request.user)
         avatar_form = AvatarForm(instance=request.user.profile)
+        social_form = SocialNetworkForm()
 
     user = request.user
     try:
@@ -99,6 +103,7 @@ def profile_detail(request):
         'profile_form': profile_form,
         'password_change_form': password_change_form,
         'avatar_form': avatar_form,
+        'social_form': social_form,
         'avatar': username.profile.avatar,
         'twitter_login': twitter_login,
         'facebook_login': facebook_login,
@@ -163,4 +168,15 @@ def set_avatar(request):
                 os.remove(old_image)
             avatar_form.user_id = request.user.id
             avatar_form.save()
+    return redirect('profiles:profile-details')
+
+
+def delete_avatar(request):
+    profile = Profile.objects.get(user_id=request.user.id)
+    if request.user.profile.avatar:
+        avatar_path = request.user.profile.avatar.path
+        if os.path.exists(avatar_path):
+            os.remove(avatar_path)
+            profile.avatar = ''
+            profile.save()
     return redirect('profiles:profile-details')

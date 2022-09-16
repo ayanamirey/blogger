@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.forms',
+    'django_cleanup',
 
     'articles',
     'accounts',
@@ -97,6 +98,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'blogger.wsgi.application'
 
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
@@ -144,8 +155,9 @@ USE_TZ = True
 
 gettext = lambda s: s
 LANGUAGES = [
-    ('uz', gettext('Uzbek')),
+    ('en', gettext('English')),
     ('kr', gettext('Karakalpak')),
+    ('uz', gettext('Uzbek')),
     ('ru', gettext('Russian')),
 ]
 
@@ -160,6 +172,7 @@ EXTRA_LANG_INFO = {
 
 import django.conf.locale
 from django.conf import global_settings
+
 LANG_INFO = dict(django.conf.locale.LANG_INFO, **EXTRA_LANG_INFO)
 django.conf.locale.LANG_INFO = LANG_INFO
 global_settings.LANGUAGES = global_settings.LANGUAGES + [("kr", 'Qaraqalpaq tili')]
@@ -171,8 +184,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
 
 PACKAGE_ROOT = os.path.abspath(os.path.dirname(__file__))
 LOCALE_PATHS = (
@@ -218,3 +231,5 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 SOCIAL_AUTH_LOGIN_ERROR_URL = 'articles:list'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'profiles:profile-details'
 SOCIAL_AUTH_RAISE_EXCEPTIONS = False
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

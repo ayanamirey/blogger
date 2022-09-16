@@ -8,11 +8,11 @@ from accounts import views as accounts_views
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('oauth/', include('social_django.urls', namespace='social')),
-    re_path(r'^markdownx/', include('markdownx.urls')),
-    path('i18n/', include('django.conf.urls.i18n')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  path('oauth/', include('social_django.urls', namespace='social')),
+                  re_path(r'^markdownx/', include('markdownx.urls')),
+                  path('i18n/', include('django.conf.urls.i18n')),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns(
     path('accounts/', include('accounts.urls')),
@@ -24,4 +24,4 @@ urlpatterns += i18n_patterns(
     path('search/tags/', article_views.article_tag_search, name='search-tag'),
     path('search/users/', accounts_views.users_search, name='search-users'),
     path('search/', article_views.article_search, name='search'),
-)
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,40 +1,68 @@
 {% extends 'base_sidebar.html' %}
-
+{% load i18n %}
 {% block header %}Bas bet{% endblock %}
+{% load static %}
 
 {% block content %}
     <ul class="nav nav-tabs list-style-none my-2">
         <li class="ml-2 nav-item">
             <a class="nav-link {% if by_date %}active{% endif %}"
-               href="{% url 'articles:list' %}">By date</a>
+               href="{% url 'articles:list' %}">{% trans "By date" %}</a>
         </li>
         <li class="nav-item">
             <a class="nav-link {% if by_following %}active{% endif %}"
-               href="{% url 'articles:list-by-following' %}">By following</a>
+               href="{% url 'articles:list-by-following' %}">{% trans "By following" %}</a>
+        </li>
+            <li class="nav-item">
+            <a class="nav-link {% if by_most_comments %}active{% endif %}"
+               href="{% url 'articles:list-most-comments' %}">{% trans "Most popular" %}</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link {% if by_top %}active{% endif %}"
-               href="{% url 'articles:list-by-top' %}">Top of week</a>
+            <a class="nav-link {% if by_most_likes %}active{% endif %}"
+               href="{% url 'articles:list-most-liked' %}">{% trans "Most liked" %}</a>
         </li>
     </ul>
 
     <div class="articles items">
-        {% for article in articles %}
-            {% include '_partials/_article_item.html' %}
-        {% endfor %}
+        {% if articles %}
+            {% for article in articles %}
+                {% include '_partials/_article_item.html' %}
+            {% endfor %}
 
-        {% if not articles and by_following %}
+            {% if not articles and by_following %}
 
-            <p class="m-3 h5">
-                {% if user.is_authenticated %}
-                    You are not subscribed to any category or author
-                {% else %}
-                    You are not logged in
+                <p class="m-3 h5">
+                    {% if user.is_authenticated %}
+                        You are not subscribed to any category or author
+                    {% else %}
+                        You are not logged in
+                    {% endif %}
+                </p>
+                </div>
+                {% if articles.has_other_pages %}
+                    {% include '_partials/pagination.html' %}
                 {% endif %}
-            </p>
+            {% endif %}
+        {% else %}
+            <div>
+                <p style="font-size: 22px;text-align: center;">{% trans 'Select time range' %}</p>
+                {% if text %}
+                    <p>{{ text }}</p>
+                {% endif %}
+                <form action="" method="post" style="display: flex; align-items: center;margin-bottom: 20px;">
+                    {% csrf_token %}
+                    <label for="from-date" style="display: flex; align-items: center;margin:0;">{% trans 'from:' %}
+                        {{ form.from_date }}
+                    </label>
+                    <label for="to-date" style="display: flex; align-items: center;margin:0;">{% trans 'to:' %}
+                        {{ form.to_date }}
+                    </label>
+                    <input class="btn btn-primary" type="submit" value="{% trans 'Сonfirm' %}"
+                           style="padding: 11px 16px;">
+                </form>
+                {% for article in context %}
+                    {% include '_partials/_article_item_2.html' %}
+                {% endfor %}
+            </div>
         {% endif %}
-    </div>
-    {% if articles.has_other_pages %}
-        {% include '_partials/pagination.html' %}
-    {% endif %}
 {% endblock %}

@@ -4,11 +4,13 @@
 {% block header %}{{ article.title |capfirst }}{% endblock %}
 
 {% block content %}
+    {% if article.image %}
+        <img src="{{ article.image.url }}" alt="">
+    {% endif %}
     <p>{{ body|safe }}</p>
 {% endblock %}
 {% block bottom %}
     <div class="d-flex col-10 mx-auto align-items-center">
-
         <div class="mr-auto like-icon">
             <span {% if user.is_authenticated %}onclick="liking(event)"{% else %} data-toggle="modal"
                   data-target="#modalLRForm"{% endif %}>
@@ -18,10 +20,11 @@
             <span id="count_of_likes">
                 {% if count_of_likes %}x{{ count_of_likes }}{% endif %}
             </span>
-            <span {% if user.is_authenticated %}data-target="#report_article-{{ article.id }}"{% else %}data-target="#modalLRForm"{% endif %}
+            <span {% if user.is_authenticated %}data-target="#report_article-{{ article.id }}"
+                  {% else %}data-target="#modalLRForm"{% endif %}
                   data-toggle="modal">
                 <i class="icon-attention ml-1" style="font-size: 35px; cursor: pointer"
-                data-original-title="Report" title data-toggle="tooltip" data-placement="top"></i>
+                   data-original-title="Report" title data-toggle="tooltip" data-placement="top"></i>
             </span>
         </div>
 

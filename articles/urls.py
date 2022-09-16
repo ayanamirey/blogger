@@ -1,12 +1,13 @@
 from django.urls import path, re_path
 from . import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 app_name = 'articles'
 
 urlpatterns = [
     path('liking', views.liking, name='liking'),
     path('add_to_view', views.add_to_view, name='add-to-view'),
-    path('add_to_favourite', views.add_to_favourite, name='liking'),
+    path('add-to-favourite', views.add_to_favourite, name='add-to-favourite'),
     path('favourite-articles', views.favourite_articles, name='favourite-articles'),
     path('report-to-comment', views.report_to_comment, name='report-to-comment'),
     path('report-to-article', views.report_to_article, name='report-to-article'),
@@ -15,6 +16,8 @@ urlpatterns = [
     path('', views.article_list, name="list"),
     path('following/', views.list_by_following, name="list-by-following"),
     path('top/', views.list_by_top, name="list-by-top"),
+    path('most-liked/', views.list_most_liked, name="list-most-liked"),
+    path('most-comments/', views.list_most_comments, name="list-most-comments"),
     path('categories/', views.category_list, name="category-list"),
     path('category/<str:slug>', views.articles_by_category, name="articles-by-category"),
     path('new', views.article_create, name="create"),
@@ -23,5 +26,5 @@ urlpatterns = [
     re_path('(?P<slug>[\\w-]+)/edit', views.article_edit, name='edit'),
     re_path('(?P<slug>[\\w-]+)/delete', views.article_delete, name='delete'),
     re_path('(?P<slug>[\\w-]+)/$', views.article_detail, name='detail')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

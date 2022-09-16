@@ -13,7 +13,13 @@ class CreateArticle(forms.ModelForm):
 
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'slug', 'category', 'tag']
+        fields = ['title', 'body', 'slug', 'category', 'tag', 'status', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            if field != 'status' and field != 'image' and field != 'category':
+                self.fields[field].widget.attrs['class'] = 'form-control'
 
 
 class EditArticle(forms.ModelForm):
@@ -22,7 +28,13 @@ class EditArticle(forms.ModelForm):
 
     class Meta:
         model = models.Article
-        fields = ['title', 'body', 'slug', 'tag']
+        fields = ['title', 'body', 'slug', 'tag', 'status', 'image']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            if field != 'status' and field != 'image':
+                self.fields[field].widget.attrs['class'] = 'form-control'
 
 
 class CommentForms(forms.ModelForm):
@@ -33,3 +45,14 @@ class CommentForms(forms.ModelForm):
     content = forms.CharField(
         widget=forms.Textarea(attrs={'required': True, 'style': 'resize: vertical; min-height: 160px; height: 200px'}),
         error_messages='', label='Content')
+
+
+class NewTestForm(forms.Form):
+    from_date = forms.DateTimeField(
+        widget=forms.DateInput(
+            attrs={'class': 'form-control', 'type': 'date', 'id': 'from-date', 'style': 'margin:0 10px 0 5px'})
+    )
+    to_date = forms.DateTimeField(
+        widget=forms.DateInput(
+            attrs={'class': "form-control", 'type': "date", 'id': 'to-date', 'style': 'margin:0 10px 0 5px'})
+    )

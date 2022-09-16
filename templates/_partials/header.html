@@ -27,7 +27,7 @@
                 </form>
                 {% if user.is_authenticated %}
                     <ul class="top-menu heading nav w-100 d-lg-flex align-items-center">
-                        <li><a href="{% url 'articles:create' %}" class="btn pt-1 pb-1">New Article</a></li>
+                        <li><a href="{% url 'articles:create' %}" class="btn pt-1 pb-1">{% trans "New Article" %}</a></li>
                         <li>
                             <div class="author-avatar dropdown">
                                 <img title="@{{ user.username }}" class="dropdown-toggle cursor-pointer"

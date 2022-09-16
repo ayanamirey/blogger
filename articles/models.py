@@ -31,6 +31,7 @@ class Article(TimestampedModel):
                               default='draft')
     category = models.ForeignKey('Category', on_delete=models.CASCADE, default=None)
     views = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -62,6 +63,7 @@ class Article(TimestampedModel):
     def get_comments(self):
         return self.comment_set.filter(parent__isnull=True)
 
+    @property
     def count_of_likes(self):
         return LikeOfArticle.objects.filter(article_id=self.id).count()
 
@@ -79,11 +81,14 @@ class Comment(TimestampedModel):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(max_length=5000)
     parent = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey('Article', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=25,
                               choices=(('active', 'ACTIVE'), ('deleted', 'DELETED')),
                               default='active')
+
+    class Meta:
+        ordering = ['pk', ]
 
     def __str__(self):
         return self.content[0:200] + '[{}]'.format(self.id)
@@ -94,14 +99,14 @@ class Category(models.Model):
     description = models.TextField(blank=True, null=True)
     slug = models.SlugField(unique=True)
     menu_position = models.PositiveSmallIntegerField(default=0)  # if 0, not position. Status = False
-    image = models.ImageField(upload_to='categories/', blank=True, null=True)
 
     def __str__(self):
         return f'{self.title_uz} [{self.id}]'
 
     @staticmethod
     def get_active_categories():
-        return Category.objects.filter(article__isnull=False)
+        return Category.objects.all()
+        # return Category.objects.filter(article__isnull=False)
 
     def get_count_articles(self):
         return Article.objects.filter(category_id=self.id, status='published').count()
@@ -136,6 +141,7 @@ class ReportToArticle(models.Model):
         report_1 = 1
         report_2 = 2
         report_3 = 3
+
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     from_user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -148,6 +154,7 @@ class ReportToComment(models.Model):
         This_is_spam = 1
         This_reporting = 2
         This_18_plus = 3
+
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     from_user = models.ForeignKey(User, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)

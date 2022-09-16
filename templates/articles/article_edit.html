@@ -1,20 +1,38 @@
 {% extends 'base_full_width.html' %}
 
 {% block content %}
+    <style>
+        form input,
+        form textarea {
+            margin-bottom: 10px;
+        }
+
+        form .btn {
+            display: block;
+            padding: 8px 17px;
+            margin-left: auto;
+        }
+
+    </style>
+
     <div class="create-article">
         <h2>Edit article</h2>
         <form class="site-form pt-3" action="{% url 'articles:edit' article.slug %}" method="post"
               enctype="multipart/form-data">
             {% csrf_token %}
-            Title:
+            <label>Title:</label>
             {{ form.title }}
-            Body:
+            <label>Body:</label>
             {{ form.body }}
-            Slug:
+            <label>Slug:</label>
             {{ form.slug }}
-            Tags:
-            <input type="text" name="tag" value="{{ tags }}" maxlength="100" required="" id="id_tag">
-            <input type="submit" name="" value="Save">
+            <label>Tags:</label>
+            <input class="form-control" type="text" name="tag" value="{{ tags }}" maxlength="100" required=""
+                   id="id_tag">
+            <label>Status:</label>
+            {{ form.status }}
+            {{ form.image }}
+            <input class="btn btn-primary" type="submit" name="" value="Save">
         </form>
         {{ form.media }}
     </div>

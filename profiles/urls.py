@@ -8,5 +8,6 @@ urlpatterns = [
     # path('edit', views.update_profile, name='profile-update'),
     path('articles/draft', views.draft_articles, name='draft-articles'),
     path('articles/published', views.published_articles, name='published-articles'),
-    path('set-avatar/', views.set_avatar, name='set-avatar')
+    path('set-avatar/', views.set_avatar, name='set-avatar'),
+    path('delete-avatar/', views.delete_avatar, name='delete-avatar')
 ]

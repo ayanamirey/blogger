@@ -1,7 +1,9 @@
 from PIL import Image
 from django.contrib.auth.models import User
 from django import forms
-from profiles.models import Profile
+from sqlparse import format
+
+from profiles.models import Profile, ConnectToSocialAccount
 
 
 class UserForm(forms.ModelForm):
@@ -23,10 +25,9 @@ class ProfileForm(forms.ModelForm):
         widgets = {
             'bio': forms.Textarea(attrs={'rows': '8', 'style': 'resize: vertical'}),
             'location': forms.TextInput(attrs={'class': 'form-control-sm'}),
-            'birth_date': forms.DateInput(attrs={'class': 'form-control-sm'}),
+            'birth_date': forms.DateInput(attrs={'class': 'form-control-sm', 'type': 'date', 'style': 'width: 167px;'}),
             'avatar': forms.FileInput(attrs={'class': 'file-upload', 'required': False})
         }
-
 
 class AvatarForm(forms.ModelForm):
     x = forms.FloatField(widget=forms.HiddenInput())
@@ -54,3 +55,12 @@ class AvatarForm(forms.ModelForm):
         resized_image.save(profile.avatar.path)
 
         return profile
+
+
+class SocialNetworkForm(forms.ModelForm):
+    class Meta:
+        model = ConnectToSocialAccount
+        fields = ('username',)
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+        }

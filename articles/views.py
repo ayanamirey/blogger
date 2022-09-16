@@ -1,6 +1,8 @@
+import sys
 from datetime import datetime, timedelta
 import hashlib
-
+from django.db.models import Count, When, Case, IntegerField
+from django.conf.global_settings import LANGUAGE_CODE
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
@@ -10,13 +12,14 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.signing import Signer
 from django.core import signing
-
+from django.db import connection, connections
 from markdownx.utils import markdownify
 
 from accounts.models import FollowToCategory, FollowToUsers
 from . import forms, r_db
 from .forms import EditArticle
 from .models import Article, Tag, Comment, LikeOfArticle, FavouriteArticles, ReportToArticle, ReportToComment, Category
+from django.utils.translation import gettext as _
 
 NUMBER_OF_ARTICLES_PER_PAGE = 10
 signer = Signer()
@@ -36,6 +39,7 @@ def article_list(request):
     paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
     page = request.GET.get('page')
     articles = paginator.get_page(page)
+    print(sys.version)
     return render(request, 'articles/article_list.html', {'articles': articles, 'by_date': True})
 
 
@@ -55,8 +59,8 @@ def list_by_following(request):
 def list_by_top(request):
     now = datetime.now()
     week_ago = now - timedelta(days=31)
-    all_articles = Article.objects.filter(status='published', created_at__range=[week_ago, now])\
-        .annotate(by_formule=(Q()))\
+    all_articles = Article.objects.filter(status='published', created_at__range=[week_ago, now]) \
+        .annotate(by_formule=(Q())) \
         .order_by('by_formule')
     paginator = Paginator(all_articles, NUMBER_OF_ARTICLES_PER_PAGE)
     page = request.GET.get('page')
@@ -64,8 +68,45 @@ def list_by_top(request):
     return render(request, 'articles/article_list.html', {'articles': articles, 'by_top': True})
 
 
-'''
+def list_most_liked(request):
+    if request.method == 'POST':
+        form = forms.NewTestForm(request.POST)
+        text = ''
+    else:
+        form = forms.NewTestForm()
+        form.data['to_date'] = datetime.now()
+        form.data['from_date'] = datetime.now() - timedelta(days=1)
+        text = '*По дефолту будет выбран промежуток в день'
 
+    articles = Article.objects.filter(status='published').annotate(count_likes=Count(Case(
+        When(likeofarticle__timestamp__range=[form.data['from_date'], form.data['to_date']], then=1),
+        output_field=IntegerField(),
+    ))).order_by('-count_likes')
+
+    return render(request, 'articles/article_list.html',
+                  {'context': articles, 'form': form, 'text': text, 'by_most_likes': True})
+
+
+def list_most_comments(request):
+    if request.method == 'POST':
+        form = forms.NewTestForm(request.POST)
+        text = ''
+    else:
+        form = forms.NewTestForm()
+        form.data['to_date'] = datetime.now()
+        form.data['from_date'] = datetime.now() - timedelta(days=1)
+        text = '*По дефолту будет выбран промежуток в день'
+
+    articles = Article.objects.filter(status='published').annotate(count_comments=Count(Case(
+        When(comment__created_on__range=[form.data['from_date'], form.data['to_date']], then=True),
+        output_field=IntegerField(),
+    ))).order_by('-count_comments')
+
+    return render(request, 'articles/article_list.html',
+                  {'context': articles, 'form': form, 'text': text, 'by_most_comments': True})
+
+
+'''
     1.5 * views + 3.5 * likes 
     Count("views") * 1.5 + 3.5 * Count('') 
 '''
@@ -235,11 +276,14 @@ def liking(request):
     if request.method == 'POST':
         article_id = request.POST['article_id']
         obj, liked = LikeOfArticle.objects.update_or_create(user_id=request.user.id, article_id=article_id)
+        print(obj)
+        print(liked)
         if not liked:
             obj.delete()
         likes = LikeOfArticle.objects.filter(article__id=article_id)
         count_of_likes = likes.count()
-        return JsonResponse({'liked': liked, 'count_of_likes': count_of_likes}, status=201)
+        return JsonResponse({'liked': liked, 'count_of_likes': count_of_likes},
+                            status=201)
     else:
         return JsonResponse({'error': 'Error'}, status=400)
 

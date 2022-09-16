@@ -18,23 +18,24 @@
         })
     }
 
-    function mobileMenu() {
+    // function mobileMenu() {
+    //
+    //     $('.menu-toggle-icon').on('click', function (event) {
+    //         $(this).toggleClass('act');
+    //         if ($(this).hasClass('act')) {
+    //             $('.mobi-menu').addClass('act');
+    //         } else {
+    //             $('.mobi-menu').removeClass('act');
+    //         }
+    //     });
+    //
+    //     $('.mobi-menu .menu-item-has-children').append('<span class="sub-menu-toggle"></span>');
+    //
+    //     $('.sub-menu-toggle').on('click', function (event) {
+    //         $(this).parent('li').toggleClass('open-submenu');
+    //     });
+    // }
 
-        $('.menu-toggle-icon').on('click', function (event) {
-            $(this).toggleClass('act');
-            if ($(this).hasClass('act')) {
-                $('.mobi-menu').addClass('act');
-            } else {
-                $('.mobi-menu').removeClass('act');
-            }
-        });
-
-        $('.mobi-menu .menu-item-has-children').append('<span class="sub-menu-toggle"></span>');
-
-        $('.sub-menu-toggle').on('click', function (event) {
-            $(this).parent('li').toggleClass('open-submenu');
-        });
-    }
 
     $(function () {
         $('.lazy').Lazy({
@@ -161,7 +162,6 @@ $("div.profile_avatar_modal div.img_fixvh").click(function () {
     });
     $("div.profile_avatar_modal div.big_img").css({
         'transform': 'translate(-50%, -50%) scale(0)',
-
     });
 });
 

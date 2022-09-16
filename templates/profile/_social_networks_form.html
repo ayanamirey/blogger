@@ -6,15 +6,15 @@
             <div class="ml-auto">
                 https://{{ items.link_to_sn }}/
                 <input type="text" name="_s_{{ items.title }}"
-                       {% for social_account in social_accounts %}
-                {% if social_account.user.id == request.user.id and items.id == social_account.social_network.id %}
-                    value="{{ social_account.username }}"
-                {% endif %}
-                {% endfor %}
-                       >
+                        {% for social_account in social_accounts %}
+                            {% if social_account.user.id == request.user.id and items.id == social_account.social_network.id %}
+                       value="{{ social_account.username }}"
+                            {% endif %}
+                        {% endfor %}>
             </div>
         </div>
     {% endfor %}
+
     <input type="hidden" name="_social_account" value="93">
     <button class="btn btn-outline-success btn-default" type="submit">Save changes</button>
 </form>

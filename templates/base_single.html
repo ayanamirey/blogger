@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load social_share %}
 {% load static %}
+{% load static i18n %}
 
 {% block root_content %}
     <div class="container">
@@ -125,9 +126,10 @@
 
         liking = async function (e) {
             e.preventDefault();
+            let lang = '{{request.LANGUAGE_CODE}}'
             await $.ajax({
                 type: 'POST',
-                url: '/articles/liking',
+                url: '/'+lang+'/articles/liking',
                 data: {
                     article_id: {{ article.id }},
                     csrfmiddlewaretoken: '{{ csrf_token }}'
@@ -222,15 +224,16 @@
 
         async function addToFavourite(e) {
             e.preventDefault();
+            let lang = '{{request.LANGUAGE_CODE}}'
             await $.ajax({
                 type: 'POST',
-                url: '/articles/add_to_favourite',
+                url: '/'+lang+'/articles/add-to-favourite',
                 data: {
                     article_id: {{ article.id }},
                     csrfmiddlewaretoken: '{{ csrf_token }}'
                 },
                 dataType: 'json',
-                success: (data, status) => {
+                success: function (data, status) {
                     if ($('.icon-bookmark-empty').length) {
                         $('.icon-bookmark-empty').addClass('icon-bookmark').removeClass('icon-bookmark-empty').addClass("animate");
                     } else if ($('.icon-bookmark'.length)) {
